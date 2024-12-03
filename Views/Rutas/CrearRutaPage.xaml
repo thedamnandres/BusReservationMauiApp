@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BusReservationMauiApp.Views.CrearRutaPage">
+    
+    <StackLayout Padding="10">
+        <Label x:Name="HeaderLabel" Text="Crear Nueva Ruta" FontSize="20" HorizontalOptions="Center" Margin="10" />
+
+        <Entry x:Name="OrigenEntry" Placeholder="Origen" />
+        <Entry x:Name="DestinoEntry" Placeholder="Destino" />
+        <Label Text="Duración:" />
+        <TimePicker x:Name="DuracionPicker" />
+        <Label Text="Hora:" />
+        <TimePicker x:Name="HoraPicker" />
+        <DatePicker x:Name="FechaPicker" />
+
+        <Button Text="Guardar" Clicked="OnSaveRutaClicked" BackgroundColor="LightGreen" TextColor="White" />
+    </StackLayout>
+    
+</ContentPage>
