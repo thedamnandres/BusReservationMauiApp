@@ -19,7 +19,7 @@
                        VerticalOptions="Center"
                        Grid.Column="0" />
 
-                <!-- Texto "See all" -->
+                <!-- Botón para agregar nueva ruta -->
                 <Button Text="+"
                         Clicked="OnAddRutaClicked" 
                         FontSize="24"
@@ -28,33 +28,12 @@
                         BackgroundColor="#f5f5f5"
                         VerticalOptions="Center"
                         Grid.Column="1" />
-                
-                <!-- Botón para agregar nueva ruta -->
             </Grid>
-            
-            <!-- Grid para Rutas -->
             <ScrollView Grid.Row="1">
-                <CollectionView x:Name="RutasCollectionView" SelectionMode="Single">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Padding="5,10,5,10">
-                                <Label Text="{Binding Origen}" FontSize="16" />
-                                <Label Text="{Binding Destino}" FontSize="16" />
-                                <Label Text="{Binding Duracion}" FontSize="14" />
-                                <Label Text="{Binding Fecha}" FontSize="14" />
-                                <Label Text="{Binding Hora}" FontSize="14" />
-                        
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                    <Button Text="Editar" Clicked="OnEditRutaClicked" BackgroundColor="LightBlue" TextColor="White" />
-                                    <Button Text="Eliminar" Clicked="OnDeleteRutaClicked" BackgroundColor="Red" TextColor="White" />
-                                </StackLayout>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <Grid x:Name="RutasGrid" Padding="10" RowSpacing="10">
+                    <!-- Las rutas dinámicas se agregarán aquí desde el código detrás -->
+                </Grid>
             </ScrollView>
-            
-            
         </Grid>
     </ContentPage.Content>
 </ContentPage>
