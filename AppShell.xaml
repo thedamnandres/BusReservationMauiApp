@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:BusReservationMauiApp"
     xmlns:views="clr-namespace:BusReservationMauiApp.Views"
+    xmlns:reservas="clr-namespace:BusReservationMauiApp.Views.Reservas"
     Shell.FlyoutBehavior="Disabled"
     Title="BusReservationMauiApp">
     
@@ -31,7 +32,7 @@
         <Tab Title="Reservas" Icon="reservas.png">
             <ShellContent
                 Title="Reservas"
-                ContentTemplate="{DataTemplate views:ReservaPage}"
+                ContentTemplate="{DataTemplate reservas:ReservaPage}"
                 Route="Reservas"/>
         </Tab>
         <Tab Title="Usuarios" Icon="usuario.png">
