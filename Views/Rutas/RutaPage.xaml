@@ -29,6 +29,8 @@
                         VerticalOptions="Center"
                         Grid.Column="1" />
             </Grid>
+
+            <!-- Grid para Rutas -->
             <ScrollView Grid.Row="1">
                 <Grid x:Name="RutasGrid" Padding="10" RowSpacing="10">
                     <!-- Las rutas dinámicas se agregarán aquí desde el código detrás -->

@@ -1,50 +1,127 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BusReservationMauiApp.Models;
-using Microsoft.Maui.Controls;
 
-namespace BusReservationMauiApp.Views
+namespace BusReservationMauiApp.Views.Reservas;
+
+public partial class ReservaPage : ContentPage
 {
-    public partial class ReservaPage : ContentPage
+    public ObservableCollection<Reserva> Reservas { get; set; }
+
+    public ReservaPage()
     {
-        // Usamos ObservableCollection para que la interfaz se actualice automáticamente
-        public ObservableCollection<Reserva> Reservas { get; set; }
-        private int reservaId = 4; // Para incrementar el ID automáticamente
-        private char letraAsiento = 'D'; // Empezamos desde la letra D para los asientos
+        InitializeComponent();
 
-        public ReservaPage()
+        // Reservas quemadas iniciales
+        Reservas = new ObservableCollection<Reserva>
         {
-            InitializeComponent();
+            new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "APROBADO", Precio = 10.50f },
+            new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "APROBADO", Precio = 12.00f },
+            new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "APROBADO", Precio = 8.75f }
+        };
 
-            // Datos iniciales
-            Reservas = new ObservableCollection<Reserva>
+        // Generar la vista para cada reserva
+        CargarReservas();
+    }
+
+    private void CargarReservas()
+    {
+        ReservasGrid.RowDefinitions.Clear();
+        ReservasGrid.Children.Clear();
+
+        int rowIndex = 0;
+
+        foreach (var reserva in Reservas)
+        {
+            // Agregar una nueva fila al grid
+            ReservasGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            // Crear un frame para la reserva
+            var frame = new Frame
             {
-                new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "APROBADO", Precio = 10.50f },
-                new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "APROBADO", Precio = 12.00f },
-                new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "APROBADO", Precio = 8.75f }
+                CornerRadius = 10,
+                Padding = 15,
+                Margin = new Thickness(10, 5, 10, 5),
+                BackgroundColor = Colors.White,
+                HasShadow = true,
+                Content = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Star }
+                    },
+                    RowDefinitions =
+                    {
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = GridLength.Auto }
+                    }
+                }
             };
 
-            // Establecer el contexto de enlace a la vista
-            BindingContext = this;
-        }
-
-        private async void OnAddReservaClicked(object sender, EventArgs e)
-        {
-            // Crear nueva reserva con datos que se suman secuencialmente
-            var nuevaReserva = new Reserva
+            // Crear elementos visuales dentro del frame
+            var asientoLabel = new Label
             {
-                ReservaId = reservaId++, // Incrementa el ID automáticamente
-                Asiento = $"{letraAsiento++}{new Random().Next(1, 10)}", // Asientos con letra y número
-                FechaReserva = DateTime.Today.AddDays(3),
-                EstadoReserva = "APROBADO", // El estado siempre será "APROBADO"
-                Precio = (float)new Random().NextDouble() * (15 - 8) + 8 // Precio aleatorio entre 8 y 15
+                Text = $"Asiento: {reserva.Asiento}",
+                FontSize = 18,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.Black,
+                HorizontalOptions = LayoutOptions.Start
             };
+            Grid.SetRow(asientoLabel, 0);
+            Grid.SetColumn(asientoLabel, 0);
 
-            // Agregar la nueva reserva a la colección observable
-            Reservas.Add(nuevaReserva);
+            var fechaLabel = new Label
+            {
+                Text = $"Fecha: {reserva.FechaReserva:dd/MM/yyyy}",
+                FontSize = 14,
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Center
+            };
+            Grid.SetRow(fechaLabel, 0);
+            Grid.SetColumn(fechaLabel, 1);
 
-            // Mostrar un mensaje de éxito
-            await DisplayAlert("Aprobado", $"Reserva {nuevaReserva.ReservaId} agregada exitosamente.", "OK");
+            var estadoLabel = new Label
+            {
+                Text = $"Estado: {reserva.EstadoReserva}",
+                FontSize = 14,
+                TextColor = reserva.EstadoReserva == "APROBADO" ? Colors.Green : Colors.Red,
+                HorizontalOptions = LayoutOptions.End
+            };
+            Grid.SetRow(estadoLabel, 0);
+            Grid.SetColumn(estadoLabel, 2);
+
+            var precioLabel = new Label
+            {
+                Text = $"Precio: ${reserva.Precio:F2}",
+                FontSize = 14,
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Start
+            };
+            Grid.SetRow(precioLabel, 1);
+            Grid.SetColumnSpan(precioLabel, 3);
+
+            // Agregar elementos al grid dentro del frame
+            var frameGrid = (Grid)frame.Content;
+            frameGrid.Children.Add(asientoLabel);
+            frameGrid.Children.Add(fechaLabel);
+            frameGrid.Children.Add(estadoLabel);
+            frameGrid.Children.Add(precioLabel);
+
+            // Agregar frame al grid principal
+            ReservasGrid.Add(frame, 0, rowIndex);
+            rowIndex++;
         }
+    }
+
+    private async void OnAddReservaClicked(object sender, EventArgs e)
+    {
+        await DisplayAlert("No permitido", "No se pueden agregar reservas en esta pÃ¡gina.", "OK");
     }
 }

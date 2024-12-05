@@ -1,58 +1,38 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BusReservationMauiApp.Views.ReservaPage"
-             Title="Reservas">
+             x:Class="BusReservationMauiApp.Views.Reservas.ReservaPage">
+    
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto, *">
-            <!-- Encabezado -->
-            <StackLayout BackgroundColor="#3B82F6" Padding="10">
-                <Label Text="Reservas Disponibles"
-                       FontSize="24"
+        <Grid RowDefinitions=".15*,1.5*">
+            <!-- Header -->
+            <Grid Grid.Row="0"
+                  Padding="10"
+                  BackgroundColor="#f5f5f5"
+                  ColumnDefinitions="*, Auto">
+                <Label Text="Reservas"
+                       FontSize="20"
                        FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       TextColor="White" />
-                <Button Text="Agregar Nueva Reserva"
-                        BackgroundColor="#10B981"
-                        TextColor="White"
-                        FontAttributes="Bold"
-                        CornerRadius="20"
-                        HeightRequest="40"
-                        Clicked="OnAddReservaClicked"
-                        Margin="0,10,0,0" />
-            </StackLayout>
+                       TextColor="Black"
+                       VerticalOptions="Center"
+                       Grid.Column="0" />
 
-            <!-- Lista de Reservas -->
-            <CollectionView Grid.Row="1" ItemsSource="{Binding Reservas}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame CornerRadius="10"
-                               Padding="10"
-                               Margin="10,5"
-                               BackgroundColor="#FFFFFF"
-                               HasShadow="True">
-                            <StackLayout>
-                                <Label Text="Reserva para:"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="#374151" />
-                                <Label Text="{Binding Asiento, StringFormat='Asiento: {0}'}"
-                                       FontSize="16"
-                                       TextColor="#6B7280" />
-                                <Label Text="{Binding FechaReserva, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
-                                       FontSize="16"
-                                       TextColor="#6B7280" />
-                                <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}"
-                                       FontSize="16"
-                                       TextColor="#6B7280" />
-                                <Label Text="{Binding EstadoReserva, StringFormat='Estado: {0:Activo;Inactivo}'}"
-                                       FontSize="16"
-                                       TextColor="{Binding EstadoReserva, Converter={StaticResource BooleanToColorConverter}}" />
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                <Button Text="+"
+                        Clicked="OnAddReservaClicked"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        TextColor="#FF9800"
+                        BackgroundColor="#f5f5f5"
+                        VerticalOptions="Center"
+                        Grid.Column="1" />
+            </Grid>
+
+            <ScrollView Grid.Row="1">
+                <Grid x:Name="ReservasGrid" Padding="10" RowSpacing="10">
+                    <!-- Las reservas dinámicas se agregarán aquí desde el código detrás -->
+                </Grid>
+            </ScrollView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
