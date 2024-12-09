@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BusReservationMauiApp.Views.UsuarioPage">
+    <ScrollView>
+        <Grid VerticalOptions="FillAndExpand">
+            <!-- Main Content -->
+            <StackLayout
+                Padding="10"
+                Spacing="20"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="StartAndExpand">
+
+                <!-- App Logo -->
+                <Image
+                    Source="paul.jpeg"
+                    HeightRequest="120"
+                    Aspect="AspectFit"
+                    SemanticProperties.Description="Logo de la Aplicación"
+                    HorizontalOptions="Center"
+                    Margin="0,10" />
+
+                <Label Text="Nombre:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
+                
+                <Frame
+                    BackgroundColor="DimGray"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    Padding="15"
+                    Margin="5,0,5,0"
+                    HorizontalOptions="FillAndExpand">
+                    <Label
+                        Text="Paul Larrea"
+                        FontSize="18"
+                        HorizontalTextAlignment="Start"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        HorizontalOptions="Start"
+                        LineBreakMode="WordWrap" />
+                </Frame>
+
+                <Label Text="C.I:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
+                
+                <Frame
+                    BackgroundColor="DimGray"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    Padding="15"
+                    Margin="5,0,5,0"
+                    HorizontalOptions="FillAndExpand">
+                    <Label
+                        Text="1765467382"
+                        FontSize="18"
+                        HorizontalTextAlignment="Start"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        HorizontalOptions="Start"
+                        LineBreakMode="WordWrap" />
+                </Frame>
+                
+                <Label Text="Correo:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
+                
+                <Frame
+                    BackgroundColor="DimGray"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    Padding="15"
+                    Margin="5,0,5,0"
+                    HorizontalOptions="FillAndExpand">
+                    <Label
+                        Text="paul.larrea@hotmail.com"
+                        FontSize="18"
+                        HorizontalTextAlignment="Start"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        HorizontalOptions="Start"
+                        LineBreakMode="WordWrap" />
+                </Frame>
+                
+                <Label Text="Telefono:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
+                
+                <Frame
+                    BackgroundColor="DimGray"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    Padding="15"
+                    Margin="5,0,5,0"
+                    HorizontalOptions="FillAndExpand">
+                    <Label
+                        Text="99 897 7653"
+                        FontSize="18"
+                        HorizontalTextAlignment="Start"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        HorizontalOptions="Start"
+                        LineBreakMode="WordWrap" />
+                </Frame>
+                
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

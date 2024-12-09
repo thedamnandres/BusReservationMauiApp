@@ -4,8 +4,142 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BusReservationMauiApp.Views.HomePage">
     
-    <ContentPage.Content>
-        
-    </ContentPage.Content>
+    <ScrollView>
+    <Grid VerticalOptions="FillAndExpand">
+        <!-- Main Content -->
+        <StackLayout
+            Padding="10"
+            Spacing="20"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="StartAndExpand">
+
+            <!-- App Logo -->
+            <Image
+                Source="paul.jpeg"
+                HeightRequest="200"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Logo de la Aplicación"
+                HorizontalOptions="Center"
+                Margin="0,10" />
+
+            <!-- Welcome Message -->
+            <Frame
+                BackgroundColor="Black"
+                CornerRadius="15"
+                HasShadow="True"
+                Padding="20"
+                Margin="5,10,5,0"
+                HorizontalOptions="CenterAndExpand">
+                <Label
+                    Text="¡Bienvenido a la Agencia de Viajes en Ecuador!"
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"
+                    FontAttributes="Bold"
+                    TextColor="Cyan"
+                    HorizontalOptions="Center"
+                    LineBreakMode="WordWrap" />
+            </Frame>
+
+            <!-- First Row of Cards -->
+            <ScrollView Orientation="Horizontal" HeightRequest="280" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" Spacing="20">
+                    <Frame
+                        BackgroundColor="Black"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        Padding="15"
+                        Margin="15"
+                        WidthRequest="350"
+                        HeightRequest="250"
+                        HorizontalOptions="Center">
+                        <Grid>
+                            <StackLayout VerticalOptions="Start" Spacing="5">
+                                <Label
+                                    Text="Explora rutas, planifica tu viaje, reserva tu próximo destino y vive una experiencia personalizada con nosotros. ¡Tu aventura comienza aquí!"
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="White"
+                                    HorizontalOptions="Center"
+                                    LineBreakMode="WordWrap" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+
+                    <Frame
+                        BackgroundColor="Black"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        Padding="15"
+                        Margin="15"
+                        WidthRequest="350"
+                        HeightRequest="250"
+                        HorizontalOptions="Center">
+                        <Grid>
+                            <StackLayout VerticalOptions="Start" Spacing="5">
+                                <Label
+                                    Text="✔️ Planificación de viajes más rápida. ✔️ Explora rutas personalizadas. ✔️ Reserva y administración con seguridad."
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="White"
+                                    HorizontalOptions="Center"
+                                    LineBreakMode="WordWrap" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+
+            <!-- Second Row of Cards -->
+            <ScrollView Orientation="Horizontal" HeightRequest="280" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" Spacing="20">
+                    <Frame
+                        BackgroundColor="Black"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        Padding="15"
+                        Margin="15"
+                        WidthRequest="350"
+                        HeightRequest="250"
+                        HorizontalOptions="Center">
+                        <Grid>
+                            <StackLayout VerticalOptions="Start" Spacing="5">
+                                <Label
+                                    Text="📌 Explora paquetes exclusivos para familias y grupos de amigos."
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="White"
+                                    HorizontalOptions="Center"
+                                    LineBreakMode="WordWrap" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+
+                    <Frame
+                        BackgroundColor="Black"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        Padding="10"
+                        Margin="15"
+                        WidthRequest="350"
+                        HeightRequest="250"
+                        HorizontalOptions="Center">
+                        <Grid>
+                            <StackLayout VerticalOptions="Start" Spacing="5">
+                                <Label
+                                    Text="🎉 Vive la cultura ecuatoriana con tours educativos y experiencias culturales únicas."
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="White"
+                                    HorizontalOptions="Center"
+                                    LineBreakMode="WordWrap" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </Grid>
+</ScrollView>
+
     
 </ContentPage>

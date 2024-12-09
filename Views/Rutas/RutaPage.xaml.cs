@@ -85,8 +85,7 @@ public partial class RutaPage : ContentPage
             {
                 new Label
                 {
-                    Text = $"Salida: {ruta.Hora.Add(ruta.Hora).ToString(@"hh\:mm")}",
-                    FontSize = 14,
+                    Text = $"Salida: {ruta.Hora.ToString(@"hh\:mm")}",                    FontSize = 14,
                     TextColor = Colors.Gray,
                     HorizontalOptions = LayoutOptions.Center
                 },
