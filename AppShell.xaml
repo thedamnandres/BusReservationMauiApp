@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:BusReservationMauiApp"
     xmlns:views="clr-namespace:BusReservationMauiApp.Views"
     xmlns:reservas="clr-namespace:BusReservationMauiApp.Views.Reservas"
+    xmlns:boletos="clr-namespace:BusReservationMauiApp.Views.Boletos"
     Shell.FlyoutBehavior="Disabled"
     Title="BusReservationMauiApp">
     

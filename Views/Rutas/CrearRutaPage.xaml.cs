@@ -21,9 +21,11 @@ public partial class CrearRutaPage : ContentPage
         _ruta = ruta;
         _isEditing = ruta != null;
 
+        // Ajustar el título dinámicamente
+        Title = _isEditing ? "Editar Ruta" : "Nueva Ruta";
+
         if (_isEditing)
         {
-            HeaderLabel.Text = "Editar Ruta";
             PopulateFields();
         }
     }
@@ -79,6 +81,11 @@ public partial class CrearRutaPage : ContentPage
         MessagingCenter.Send(this, "RutaActualizada");
 
         // Regresar a la página anterior
+        await Navigation.PopAsync();
+    }
+    
+    private async void OnCancelClicked(object sender, EventArgs e)
+    {
         await Navigation.PopAsync();
     }
 }

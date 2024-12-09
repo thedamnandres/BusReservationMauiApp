@@ -19,9 +19,9 @@ public partial class ReservaPage : ContentPage
         // Reservas quemadas iniciales
         Reservas = new ObservableCollection<Reserva>
         {
-            new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "APROBADO", Precio = 10.50f },
-            new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "APROBADO", Precio = 12.00f },
-            new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "APROBADO", Precio = 8.75f }
+            new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "A TIEMPO", Precio = 8f },
+            new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "RETRASO", Precio = 8f },
+            new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "A TIEMPO", Precio = 8f }
         };
 
         // Generar la vista para cada reserva
@@ -90,7 +90,7 @@ public partial class ReservaPage : ContentPage
             {
                 Text = $"Estado: {reserva.EstadoReserva}",
                 FontSize = 14,
-                TextColor = reserva.EstadoReserva == "APROBADO" ? Colors.Green : Colors.Red,
+                TextColor = reserva.EstadoReserva == "A TIEMPO" ? Colors.Green : Colors.Red,
                 HorizontalOptions = LayoutOptions.End
             };
             Grid.SetRow(estadoLabel, 0);

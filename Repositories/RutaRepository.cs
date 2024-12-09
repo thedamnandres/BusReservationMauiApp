@@ -14,25 +14,26 @@ public class RutaRepository : iRutaRepository
 
     public RutaRepository()
     {
-        _rutas = LoadRutasFromFile();
+        _rutas = File.Exists(_filePath) ? LoadRutasFromFile() : InitializeDefaultRutas();
+    }
+
+    private ObservableCollection<Ruta> InitializeDefaultRutas()
+    {
+        var defaultRutas = new List<Ruta>
+        {
+            new Ruta { IdRuta = 1, Origen = "Quito", Destino = "Ibarra", Duracion = TimeSpan.FromHours(2), Hora = TimeSpan.FromHours(10), Fecha = DateTime.Today },
+            new Ruta { IdRuta = 2, Origen = "Ambato", Destino = "Cuenca", Duracion = TimeSpan.FromHours(4), Hora = TimeSpan.FromHours(15), Fecha = DateTime.Today }
+        };
+
+        var rutas = new ObservableCollection<Ruta>(defaultRutas);
+        SaveRutasToFile(rutas); // Guardar las rutas iniciales en el archivo para futuras ejecuciones
+        return rutas;
     }
 
     private ObservableCollection<Ruta> LoadRutasFromFile()
     {
         try
         {
-            if (!File.Exists(_filePath))
-            {
-                var defaultRutas = new List<Ruta>
-                {
-                    new Ruta { IdRuta = 1, Origen = "Quito", Destino = "Ibarra", Duracion = TimeSpan.FromHours(2), Hora = TimeSpan.FromHours(10), Fecha = DateTime.Today },
-                    new Ruta { IdRuta = 2, Origen = "Ambato", Destino = "Cuenca", Duracion = TimeSpan.FromHours(4), Hora = TimeSpan.FromHours(15), Fecha = DateTime.Today }
-                };
-
-                SaveRutasToFile(new ObservableCollection<Ruta>(defaultRutas));
-                return new ObservableCollection<Ruta>(defaultRutas);
-            }
-
             var json = File.ReadAllText(_filePath);
             var rutas = JsonConvert.DeserializeObject<List<Ruta>>(json) ?? new List<Ruta>();
             return new ObservableCollection<Ruta>(rutas);
