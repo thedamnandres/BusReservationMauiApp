@@ -15,7 +15,7 @@
 
             <!-- App Logo -->
             <Image
-                Source="paul.jpeg"
+                Source="businter.jpg"
                 HeightRequest="200"
                 Aspect="AspectFit"
                 SemanticProperties.Description="Logo de la Aplicación"
@@ -29,9 +29,9 @@
                 HasShadow="True"
                 Padding="20"
                 Margin="5,10,5,0"
-                HorizontalOptions="CenterAndExpand">
+                HorizontalOptions="FillAndExpand">
                 <Label
-                    Text="¡Bienvenido a la Agencia de Viajes en Ecuador!"
+                    Text="¡Ahora compra tus boletos interprovinciales de manera facil con BusReservation !"
                     FontSize="20"
                     HorizontalTextAlignment="Center"
                     FontAttributes="Bold"
@@ -55,12 +55,19 @@
                         <Grid>
                             <StackLayout VerticalOptions="Start" Spacing="5">
                                 <Label
-                                    Text="Explora rutas, planifica tu viaje, reserva tu próximo destino y vive una experiencia personalizada con nosotros. ¡Tu aventura comienza aquí!"
+                                    Text="Explora rutas, planifica tu viaje, reserva tu próximo destino y vive una experiencia personalizada con nosotros. 🌍 ¡Tu aventura comienza aquí!"
                                     FontSize="16"
                                     HorizontalTextAlignment="Center"
                                     TextColor="White"
                                     HorizontalOptions="Center"
                                     LineBreakMode="WordWrap" />
+                                <Image
+                                    Margin="0,10"
+                                    Source="mapas.png"
+                                    HeightRequest="130"
+                                    WidthRequest="360"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
                             </StackLayout>
                         </Grid>
                     </Frame>
@@ -83,6 +90,13 @@
                                     TextColor="White"
                                     HorizontalOptions="Center"
                                     LineBreakMode="WordWrap" />
+                                <Image
+                                    Margin="0,10"
+                                    Source="paul.jpeg"
+                                    HeightRequest="130"
+                                    WidthRequest="360"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
                             </StackLayout>
                         </Grid>
                     </Frame>
@@ -110,6 +124,13 @@
                                     TextColor="White"
                                     HorizontalOptions="Center"
                                     LineBreakMode="WordWrap" />
+                                <Image
+                                    Margin="0,10"
+                                    Source="amigos.png"
+                                    HeightRequest="130"
+                                    WidthRequest="360"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
                             </StackLayout>
                         </Grid>
                     </Frame>
@@ -132,6 +153,14 @@
                                     TextColor="White"
                                     HorizontalOptions="Center"
                                     LineBreakMode="WordWrap" />
+                                <Image
+                                    Margin="0,10"
+                                    Source="ecu.png"
+                                    HeightRequest="130"
+                                    WidthRequest="360"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
+                                
                             </StackLayout>
                         </Grid>
                     </Frame>

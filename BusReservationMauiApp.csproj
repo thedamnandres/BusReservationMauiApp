@@ -70,6 +70,9 @@
       <MauiXaml Update="Views\Rutas\RutaPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="Views\Usuario\UsuarioPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -79,6 +82,10 @@
       </Compile>
       <Compile Update="Views\Rutas\RutaPage.xaml.cs">
         <DependentUpon>RutaPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Usuario\UsuarioPage.xaml.cs">
+        <DependentUpon>UsuarioPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
