@@ -5,7 +5,6 @@
              x:Class="BusReservationMauiApp.Views.UsuarioPage">
     <ScrollView>
         <Grid VerticalOptions="FillAndExpand">
-            
             <StackLayout
                 Padding="10"
                 Spacing="20"
@@ -29,8 +28,7 @@
                         VerticalOptions="Center" />
                 </Frame>
 
-                <Label Text="Nombre:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
-                
+                <Label Text="Nombre:" TextColor="White" FontSize="18" Margin="8,0,8,0" />
                 <Frame
                     BackgroundColor="DimGray"
                     CornerRadius="15"
@@ -39,7 +37,7 @@
                     Margin="5,0,5,0"
                     HorizontalOptions="FillAndExpand">
                     <Label
-                        Text="Paul Larrea"
+                        Text="{Binding Nombre}"
                         FontSize="18"
                         HorizontalTextAlignment="Start"
                         FontAttributes="Bold"
@@ -48,8 +46,7 @@
                         LineBreakMode="WordWrap" />
                 </Frame>
 
-                <Label Text="C.I:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
-                
+                <Label Text="C.I:" TextColor="White" FontSize="18" Margin="8,0,8,0" />
                 <Frame
                     BackgroundColor="DimGray"
                     CornerRadius="15"
@@ -58,7 +55,7 @@
                     Margin="5,0,5,0"
                     HorizontalOptions="FillAndExpand">
                     <Label
-                        Text="1765467382"
+                        Text="{Binding CI}"
                         FontSize="18"
                         HorizontalTextAlignment="Start"
                         FontAttributes="Bold"
@@ -66,9 +63,8 @@
                         HorizontalOptions="Start"
                         LineBreakMode="WordWrap" />
                 </Frame>
-                
-                <Label Text="Correo:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
-                
+
+                <Label Text="Correo:" TextColor="White" FontSize="18" Margin="8,0,8,0" />
                 <Frame
                     BackgroundColor="DimGray"
                     CornerRadius="15"
@@ -77,7 +73,7 @@
                     Margin="5,0,5,0"
                     HorizontalOptions="FillAndExpand">
                     <Label
-                        Text="paul.larrea@hotmail.com"
+                        Text="{Binding Correo}"
                         FontSize="18"
                         HorizontalTextAlignment="Start"
                         FontAttributes="Bold"
@@ -85,9 +81,8 @@
                         HorizontalOptions="Start"
                         LineBreakMode="WordWrap" />
                 </Frame>
-                
-                <Label Text="Telefono:" TextColor="White"  FontSize="18" Margin="8,0,8,0"/>
-                
+
+                <Label Text="Telefono:" TextColor="White" FontSize="18" Margin="8,0,8,0" />
                 <Frame
                     BackgroundColor="DimGray"
                     CornerRadius="15"
@@ -96,7 +91,7 @@
                     Margin="5,0,5,0"
                     HorizontalOptions="FillAndExpand">
                     <Label
-                        Text="99 897 7653"
+                        Text="{Binding Telefono}"
                         FontSize="18"
                         HorizontalTextAlignment="Start"
                         FontAttributes="Bold"
