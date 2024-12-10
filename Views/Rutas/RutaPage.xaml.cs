@@ -37,7 +37,6 @@ public partial class RutaPage : ContentPage
 
     foreach (var ruta in rutas)
     {
-        // Crear una fila para cada ruta
         RutasGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
         var frame = new Frame
@@ -63,7 +62,7 @@ public partial class RutaPage : ContentPage
             }
         };
 
-        // Crear los elementos visuales
+        // Atributos
         var horaSalidaLabel = new Label
         {
             Text = $"{ruta.Origen}",
@@ -85,7 +84,8 @@ public partial class RutaPage : ContentPage
             {
                 new Label
                 {
-                    Text = $"Salida: {ruta.Hora.ToString(@"hh\:mm")}",                    FontSize = 14,
+                    Text = $"Salida: {ruta.Hora.ToString(@"hh\:mm")}", 
+                    FontSize = 14,
                     TextColor = Colors.Gray,
                     HorizontalOptions = LayoutOptions.Center
                 },
@@ -124,7 +124,7 @@ public partial class RutaPage : ContentPage
         Grid.SetRow(trayectoLabel, 1);
         Grid.SetColumnSpan(trayectoLabel, 3);
 
-        // Agregar evento táctil al frame
+        // Táctil al frame
         var tapGestureRecognizer = new TapGestureRecognizer();
         tapGestureRecognizer.Tapped += async (s, e) =>
         {
@@ -145,15 +145,14 @@ public partial class RutaPage : ContentPage
             }
         };
         frame.GestureRecognizers.Add(tapGestureRecognizer);
-
-        // Agregar los elementos al grid del frame
+        
         var frameGrid = (Grid)frame.Content;
         frameGrid.Children.Add(horaSalidaLabel);
         frameGrid.Children.Add(duracionLayout);
         frameGrid.Children.Add(horaLlegadaLabel);
         frameGrid.Children.Add(trayectoLabel);
 
-        // Agregar el frame al grid principal
+        // Add frame al grid principal
         RutasGrid.Add(frame, 0, rowIndex);
         rowIndex++;
     }

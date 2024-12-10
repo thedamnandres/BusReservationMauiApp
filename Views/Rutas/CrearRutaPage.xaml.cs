@@ -10,8 +10,8 @@ namespace BusReservationMauiApp.Views;
 
 public partial class CrearRutaPage : ContentPage
 {
-     private readonly RutaRepository _repository;
-    private readonly Ruta _ruta; // Ruta para edición (opcional)
+    private readonly RutaRepository _repository;
+    private readonly Ruta _ruta; 
     private readonly bool _isEditing;
 
     public CrearRutaPage(RutaRepository repository, Ruta ruta = null)
@@ -21,7 +21,7 @@ public partial class CrearRutaPage : ContentPage
         _ruta = ruta;
         _isEditing = ruta != null;
 
-        // Ajustar el título dinámicamente
+        // Ajustar el título
         Title = _isEditing ? "Editar Ruta" : "Nueva Ruta";
 
         if (_isEditing)
@@ -32,7 +32,7 @@ public partial class CrearRutaPage : ContentPage
 
     private void PopulateFields()
     {
-        // Inicializar los campos con los valores de la ruta
+        // Inicializar campos con los valores de la ruta
         OrigenEntry.Text = _ruta.Origen;
         DestinoEntry.Text = _ruta.Destino;
         DuracionPicker.Time = _ruta.Duracion;
@@ -51,7 +51,7 @@ public partial class CrearRutaPage : ContentPage
 
         if (_isEditing)
         {
-            // Actualizar ruta existente
+            // Actualizar ruta
             _ruta.Origen = OrigenEntry.Text;
             _ruta.Destino = DestinoEntry.Text;
             _ruta.Duracion = DuracionPicker.Time;
@@ -63,7 +63,7 @@ public partial class CrearRutaPage : ContentPage
         }
         else
         {
-            // Crear nueva ruta
+            // Nueva ruta
             var nuevaRuta = new Ruta
             {
                 IdRuta = new Random().Next(100, 1000), // Generar ID temporal
@@ -79,8 +79,7 @@ public partial class CrearRutaPage : ContentPage
         }
 
         MessagingCenter.Send(this, "RutaActualizada");
-
-        // Regresar a la página anterior
+        
         await Navigation.PopAsync();
     }
     

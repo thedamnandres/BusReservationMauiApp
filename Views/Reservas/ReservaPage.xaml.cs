@@ -15,16 +15,14 @@ public partial class ReservaPage : ContentPage
     public ReservaPage()
     {
         InitializeComponent();
-
-        // Reservas quemadas iniciales
+        
         Reservas = new ObservableCollection<Reserva>
         {
             new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "A TIEMPO", Precio = 8f },
             new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "RETRASO", Precio = 8f },
             new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "A TIEMPO", Precio = 8f }
         };
-
-        // Generar la vista para cada reserva
+        
         CargarReservas();
     }
 
@@ -37,10 +35,10 @@ public partial class ReservaPage : ContentPage
 
         foreach (var reserva in Reservas)
         {
-            // Agregar una nueva fila al grid
+            // Nueva fila al grid
             ReservasGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            // Crear un frame para la reserva
+            // Frame Reserva
             var frame = new Frame
             {
                 CornerRadius = 10,
@@ -64,7 +62,7 @@ public partial class ReservaPage : ContentPage
                 }
             };
 
-            // Crear elementos visuales dentro del frame
+            // Atributos
             var asientoLabel = new Label
             {
                 Text = $"Asiento: {reserva.Asiento}",
@@ -108,6 +106,7 @@ public partial class ReservaPage : ContentPage
             Grid.SetColumnSpan(precioLabel, 3);
 
             // Agregar elementos al grid dentro del frame
+            
             var frameGrid = (Grid)frame.Content;
             frameGrid.Children.Add(asientoLabel);
             frameGrid.Children.Add(fechaLabel);
@@ -118,10 +117,5 @@ public partial class ReservaPage : ContentPage
             ReservasGrid.Add(frame, 0, rowIndex);
             rowIndex++;
         }
-    }
-
-    private async void OnAddReservaClicked(object sender, EventArgs e)
-    {
-        await DisplayAlert("No permitido", "No se pueden agregar reservas en esta página.", "OK");
     }
 }
