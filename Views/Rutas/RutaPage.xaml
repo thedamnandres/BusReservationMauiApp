@@ -6,20 +6,19 @@
     
     <ContentPage.Content>
         <Grid RowDefinitions=".15*,1.5*">
-            <!-- Header -->
+
             <Grid Grid.Row="0"
                   Padding="10"
                   BackgroundColor="#f5f5f5"
                   ColumnDefinitions="*, Auto">
-                <!-- Texto "Hoy" -->
+      
                 <Label Text="Hoy"
                        FontSize="20"
                        FontAttributes="Bold"
                        TextColor="Black"
                        VerticalOptions="Center"
                        Grid.Column="0" />
-
-                <!-- Botón para agregar nueva ruta -->
+                
                 <Button Text="+"
                         Clicked="OnAddRutaClicked" 
                         FontSize="24"
@@ -30,7 +29,7 @@
                         Grid.Column="1" />
             </Grid>
 
-            <!-- Grid para Rutas -->
+            <!-- Grid Rutas -->
             <ScrollView Grid.Row="1">
                 <Grid x:Name="RutasGrid" Padding="10" RowSpacing="10">
                     <!-- Las rutas dinámicas se agregarán aquí desde el código detrás -->

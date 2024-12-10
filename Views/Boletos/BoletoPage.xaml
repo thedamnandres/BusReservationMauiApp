@@ -5,13 +5,13 @@
              x:Class="BusReservationMauiApp.Views.BoletoPage">
     
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto, *">
-            <!-- Header -->
+        <Grid RowDefinitions=".15*,1.5*">
+        
             <Grid Grid.Row="0"
                   Padding="10"
                   BackgroundColor="#f5f5f5"
                   ColumnDefinitions="*, Auto">
-                <Label Text="Boletos"
+                <Label Text="Boletos Comprados"
                        FontSize="20"
                        FontAttributes="Bold"
                        TextColor="Black"

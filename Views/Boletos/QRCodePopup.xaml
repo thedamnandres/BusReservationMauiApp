@@ -6,22 +6,20 @@
     
     <ContentPage.Content>
         <Grid HorizontalOptions="Center" VerticalOptions="Center">
-            <!-- Fondo del popup -->
+            
             <Frame
                 BackgroundColor="White"
                 CornerRadius="20"
                 Padding="20"
                 HasShadow="True">
                 <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
-
-                    <!-- Imagen del QR ampliado -->
+                    
                     <Image
                         x:Name="QRCodeImage"
                         HeightRequest="200"
                         WidthRequest="200"
                         Aspect="AspectFit" />
-
-                    <!-- Botón para cerrar -->
+                    
                     <Button
                         Text="Cerrar"
                         BackgroundColor="Black"

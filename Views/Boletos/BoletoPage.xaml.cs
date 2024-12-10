@@ -13,16 +13,14 @@ public partial class BoletoPage : ContentPage
     public BoletoPage()
     {
         InitializeComponent();
-
-        // Reservas quemadas iniciales
+        
         Reservas = new ObservableCollection<Reserva>
         {
             new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "A TIEMPO", Precio = 8f },
             new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "RETRASO", Precio = 8f },
             new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "A TIEMPO", Precio = 8f }
         };
-
-        // Generar la vista para cada boleto
+        
         CargarBoletos();
     }
 
@@ -35,10 +33,9 @@ public partial class BoletoPage : ContentPage
 
         foreach (var reserva in Reservas)
         {
-            // Agregar una nueva fila al grid
             BoletosGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            // Crear un frame para la reserva
+            // Frame para la reserva
             var frame = new Frame
             {
                 CornerRadius = 10,
@@ -53,7 +50,7 @@ public partial class BoletoPage : ContentPage
                 ColumnDefinitions =
                 {
                     new ColumnDefinition { Width = GridLength.Star },
-                    new ColumnDefinition { Width = GridLength.Auto } // Para el QR
+                    new ColumnDefinition { Width = GridLength.Auto } 
                 },
                 RowDefinitions =
                 {
@@ -62,7 +59,7 @@ public partial class BoletoPage : ContentPage
                 }
             };
 
-            // Información de la reserva
+            // Atributos
             var infoStack = new VerticalStackLayout
             {
                 Spacing = 5,
@@ -113,11 +110,10 @@ public partial class BoletoPage : ContentPage
 
             grid.Add(qrImage, 1, 0);
             Grid.SetRowSpan(qrImage, 2);
-
-            // Agregar grid al frame
+            
             frame.Content = grid;
 
-            // Agregar frame al grid principal
+            // Addframe al grid principal
             BoletosGrid.Add(frame, 0, rowIndex);
             rowIndex++;
         }
@@ -125,7 +121,6 @@ public partial class BoletoPage : ContentPage
     
     private async Task MostrarQRAmpliado(Reserva reserva)
     {
-        // Navegar al popup mostrando el QR ampliado
         await Navigation.PushModalAsync(new QRCodePopup("qr_code.jpeg"));
     }
 }

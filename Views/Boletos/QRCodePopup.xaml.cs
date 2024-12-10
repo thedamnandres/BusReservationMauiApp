@@ -17,7 +17,6 @@ public partial class QRCodePopup : ContentPage
 
     private async void OnClosePopupClicked(object sender, EventArgs e)
     {
-        // Cerrar el popup
         await Navigation.PopModalAsync();
     }
 }

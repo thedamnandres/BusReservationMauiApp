@@ -6,14 +6,13 @@
     
     <ScrollView>
     <Grid VerticalOptions="FillAndExpand">
-        <!-- Main Content -->
+    
         <StackLayout
             Padding="10"
             Spacing="20"
             HorizontalOptions="FillAndExpand"
             VerticalOptions="StartAndExpand">
-
-            <!-- App Logo -->
+            
             <Image
                 Source="businter.jpg"
                 HeightRequest="200"
@@ -21,8 +20,7 @@
                 SemanticProperties.Description="Logo de la Aplicación"
                 HorizontalOptions="Center"
                 Margin="0,10" />
-
-            <!-- Welcome Message -->
+            
             <Frame
                 BackgroundColor="Black"
                 CornerRadius="15"
@@ -39,8 +37,7 @@
                     HorizontalOptions="Center"
                     LineBreakMode="WordWrap" />
             </Frame>
-
-            <!-- First Row of Cards -->
+            
             <ScrollView Orientation="Horizontal" HeightRequest="280" HorizontalOptions="FillAndExpand">
                 <StackLayout Orientation="Horizontal" Spacing="20">
                     <Frame
@@ -102,8 +99,7 @@
                     </Frame>
                 </StackLayout>
             </ScrollView>
-
-            <!-- Second Row of Cards -->
+            
             <ScrollView Orientation="Horizontal" HeightRequest="280" HorizontalOptions="FillAndExpand">
                 <StackLayout Orientation="Horizontal" Spacing="20">
                     <Frame
@@ -125,7 +121,7 @@
                                     HorizontalOptions="Center"
                                     LineBreakMode="WordWrap" />
                                 <Image
-                                    Margin="0,10"
+                                    Margin="0,40, 0,0"
                                     Source="amigos.png"
                                     HeightRequest="130"
                                     WidthRequest="360"
@@ -154,7 +150,7 @@
                                     HorizontalOptions="Center"
                                     LineBreakMode="WordWrap" />
                                 <Image
-                                    Margin="0,10"
+                                    Margin="0,40, 0,0"
                                     Source="ecu.png"
                                     HeightRequest="130"
                                     WidthRequest="360"

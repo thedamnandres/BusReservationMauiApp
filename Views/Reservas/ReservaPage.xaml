@@ -6,7 +6,7 @@
     
     <ContentPage.Content>
         <Grid RowDefinitions=".15*,1.5*">
-            <!-- Header -->
+            
             <Grid Grid.Row="0"
                   Padding="10"
                   BackgroundColor="#f5f5f5"
@@ -17,15 +17,7 @@
                        TextColor="Black"
                        VerticalOptions="Center"
                        Grid.Column="0" />
-
-                <Button Text="+"
-                        Clicked="OnAddReservaClicked"
-                        FontSize="24"
-                        FontAttributes="Bold"
-                        TextColor="#FF9800"
-                        BackgroundColor="#f5f5f5"
-                        VerticalOptions="Center"
-                        Grid.Column="1" />
+                
             </Grid>
 
             <ScrollView Grid.Row="1">
