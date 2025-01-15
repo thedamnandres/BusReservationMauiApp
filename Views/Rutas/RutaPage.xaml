@@ -1,40 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BusReservationMauiApp.Views.RutaPage">
-    
+             x:Class="BusReservationMauiApp.Views.RutaPage"
+             xmlns:viewmodels="clr-namespace:BusReservationMauiApp.ViewModels">
+
     <ContentPage.Content>
         <Grid RowDefinitions=".15*,1.5*">
-
+            <!-- Encabezado -->
             <Grid Grid.Row="0"
                   Padding="10"
                   BackgroundColor="#f5f5f5"
                   ColumnDefinitions="*, Auto">
-      
-                <Label Text="Hoy"
-                       FontSize="20"
-                       FontAttributes="Bold"
-                       TextColor="Black"
-                       VerticalOptions="Center"
-                       Grid.Column="0" />
-                
-                <Button Text="+"
-                        Clicked="OnAddRutaClicked" 
-                        FontSize="24"
-                        FontAttributes="Bold"
-                        TextColor="#FF9800"
-                        BackgroundColor="#f5f5f5"
+
+                <Button Text="Refrescar Rutas"
+                        Command="{Binding RefreshRutasCommand}"
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
                         VerticalOptions="Center"
-                        Grid.Column="1" />
+                        Padding="10" />
+
             </Grid>
 
-            <!-- Grid Rutas -->
-            <ScrollView Grid.Row="1">
-                <Grid x:Name="RutasGrid" Padding="10" RowSpacing="10">
-                    <!-- Las rutas dinámicas se agregarán aquí desde el código detrás -->
-                </Grid>
-            </ScrollView>
+            <!-- Lista de Rutas -->
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Rutas}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="10"
+                               Padding="15"
+                               Margin="10,5"
+                               BackgroundColor="White"
+                               HasShadow="True">
+                            <Grid ColumnDefinitions="*,*,*"
+                                  RowDefinitions="Auto,Auto">
+                                <!-- Origen -->
+                                <Label Text="{Binding Origen}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"
+                                       Grid.Row="0"
+                                       Grid.Column="0" />
+                                <!-- Duración y Hora -->
+                                <VerticalStackLayout Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"
+                                                     Spacing="3">
+                                    <Label Text="{Binding Hora, StringFormat='Hora: {0:hh\\:mm}'}"
+                                           FontSize="14"
+                                           TextColor="Gray" />
+                                    <Image Source="bus.png"
+                                           HeightRequest="40"
+                                           WidthRequest="40"
+                                           HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+                                <!-- Destino -->
+                                <Label Text="{Binding Destino}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"
+                                       Grid.Row="0"
+                                       Grid.Column="2"
+                                       HorizontalOptions="End" />
+                                <!-- Duración -->
+                                <Label Text="{Binding Duracion, StringFormat='Duración: {0:hh\\:mm}'}"
+                                       FontSize="14"
+                                       TextColor="Gray"
+                                       Grid.Row="1"
+                                       Grid.ColumnSpan="3"
+                                       HorizontalOptions="Center" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

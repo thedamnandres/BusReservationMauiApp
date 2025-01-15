@@ -1,129 +1,126 @@
 using BusReservationMauiApp.Interfaces;
 using BusReservationMauiApp.Models;
-using System.Threading.Tasks;
+using BusReservationMauiApp.Services;
+using SQLite;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BusReservationMauiApp.Repositoies;
+namespace BusReservationMauiApp.Repositories;
 
 public class RutaRepository : iRutaRepository
 {
-    private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, "rutas.json");
-    private readonly ObservableCollection<Ruta> _rutas;
+    private readonly string _dbPath;
+    private SQLiteConnection _connection;
+    private readonly RutaService _rutaService;
 
-    public RutaRepository()
+    public RutaRepository(string dbPath)
     {
-        _rutas = File.Exists(_filePath) ? LoadRutasFromFile() : InitializeDefaultRutas();
+        _dbPath = dbPath;
+        _rutaService = new RutaService();
+        Init();
     }
 
-    private ObservableCollection<Ruta> InitializeDefaultRutas()
+    private void Init()
     {
-        var defaultRutas = new List<Ruta>
+        if (_connection == null)
         {
-            new Ruta { IdRuta = 1, Origen = "Quito", Destino = "Ibarra", Duracion = TimeSpan.FromHours(2), Hora = TimeSpan.FromHours(10), Fecha = DateTime.Today },
-            new Ruta { IdRuta = 2, Origen = "Ambato", Destino = "Cuenca", Duracion = TimeSpan.FromHours(4), Hora = TimeSpan.FromHours(15), Fecha = DateTime.Today }
-        };
-
-        var rutas = new ObservableCollection<Ruta>(defaultRutas);
-        SaveRutasToFile(rutas); // Guardar las rutas iniciales en el archivo para futuras ejecuciones
-        return rutas;
+            _connection = new SQLiteConnection(_dbPath);
+            _connection.CreateTable<Ruta>();
+        }
     }
 
-    private ObservableCollection<Ruta> LoadRutasFromFile()
+    public async Task<bool> CreateRutaAsync(Ruta ruta)
     {
         try
         {
-            var json = File.ReadAllText(_filePath);
-            var rutas = JsonConvert.DeserializeObject<List<Ruta>>(json) ?? new List<Ruta>();
-            return new ObservableCollection<Ruta>(rutas);
+            // Guardar localmente
+            _connection.Insert(ruta);
+
+            // Sincronizar con la API
+            return await _rutaService.CreateRutaAsync(ruta);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error al cargar las rutas: {ex.Message}");
-            return new ObservableCollection<Ruta>(); // Colección vacía en caso de error
+            return false;
         }
     }
 
-    private void SaveRutasToFile(ObservableCollection<Ruta> rutas)
+    public async Task<bool> UpdateRutaAsync(Ruta ruta)
     {
         try
         {
-            var json = JsonConvert.SerializeObject(rutas, Formatting.Indented);
-            File.WriteAllText(_filePath, json);
+            // Actualizar localmente
+            _connection.Update(ruta);
+
+            // Sincronizar con la API
+            return await _rutaService.UpdateRutaAsync(ruta);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error al guardar las rutas: {ex.Message}");
-            throw;
+            return false;
         }
     }
 
-    public Task<IEnumerable<Ruta>> GetAllRutasAsync()
-    {
-        return Task.FromResult(_rutas.AsEnumerable());
-    }
-
-    public Task<Ruta> GetRutaByIdAsync(int id)
-    {
-        var ruta = _rutas.FirstOrDefault(r => r.IdRuta == id);
-        return Task.FromResult(ruta);
-    }
-
-    public Task AddRutaAsync(Ruta ruta)
+    public async Task<bool> DeleteRutaAsync(int id)
     {
         try
         {
-            _rutas.Add(ruta);
-            SaveRutasToFile(_rutas);
-            return Task.CompletedTask;
+            // Eliminar localmente
+            _connection.Delete<Ruta>(id);
+
+            // Sincronizar con la API
+            return await _rutaService.DeleteRutaAsync(id);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error al agregar la ruta: {ex.Message}");
-            throw;
+            return false;
         }
     }
 
-    public Task UpdateRutaAsync(Ruta ruta)
+    public async Task<IEnumerable<Ruta>> GetAllRutasAsync()
     {
         try
         {
-            var existingRuta = _rutas.FirstOrDefault(r => r.IdRuta == ruta.IdRuta);
-            if (existingRuta != null)
+            // Intentar obtener rutas desde la API
+            var rutasRemotas = await _rutaService.GetAllRutasAsync();
+            if (rutasRemotas.Any())
             {
-                existingRuta.Origen = ruta.Origen;
-                existingRuta.Destino = ruta.Destino;
-                existingRuta.Duracion = ruta.Duracion;
-                existingRuta.Hora = ruta.Hora;
-                existingRuta.Fecha = ruta.Fecha;
-                SaveRutasToFile(_rutas);
+                // Sincronizar datos remotos con la base de datos local
+                foreach (var ruta in rutasRemotas)
+                {
+                    var existe = _connection.Table<Ruta>().FirstOrDefault(r => r.IdRuta == ruta.IdRuta);
+                    if (existe == null)
+                    {
+                        _connection.Insert(ruta);
+                    }
+                    else
+                    {
+                        _connection.Update(ruta);
+                    }
+                }
             }
-            return Task.CompletedTask;
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error al actualizar la ruta: {ex.Message}");
-            throw;
+            // Si la API falla, continuar con los datos locales
         }
+
+        // Devolver datos locales
+        return _connection.Table<Ruta>().ToList();
     }
 
-    public Task DeleteRutaAsync(int id)
+    public async Task<Ruta> GetRutaAsync(int id)
     {
         try
         {
-            var ruta = _rutas.FirstOrDefault(r => r.IdRuta == id);
-            if (ruta != null)
-            {
-                _rutas.Remove(ruta);
-                SaveRutasToFile(_rutas);
-            }
-            return Task.CompletedTask;
+            // Intentar obtener ruta desde la API
+            return await _rutaService.GetRutaAsync(id);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error al eliminar la ruta: {ex.Message}");
-            throw;
+            // Si la API falla, obtener desde la base de datos local
+            return _connection.Find<Ruta>(id);
         }
     }
 }

@@ -1,0 +1,88 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = true
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
+build_property._MvvmToolkitIsUsingWindowsRuntimePack = false
+build_property.CsWinRTComponent = 
+build_property.CsWinRTAotOptimizerEnabled = 
+build_property.CsWinRTAotWarningLevel = 
+build_property.TargetFramework = net8.0-android
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = BusReservationMauiApp
+build_property.ProjectDir = /Users/thedamnandres/RiderProjects/BusReservationMauiApp/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/App.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.App.xaml
+build_metadata.AdditionalFiles.TargetPath = App.xaml
+build_metadata.AdditionalFiles.RelativePath = App.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/AppShell.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.AppShell.xaml
+build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
+build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Resources/Styles/AppStyles.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Resources.Styles.AppStyles.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources/Styles/AppStyles.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources/Styles/AppStyles.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Resources/Styles/Colors.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Resources.Styles.Colors.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources/Styles/Colors.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources/Styles/Colors.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Resources/Styles/Styles.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Resources.Styles.Styles.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources/Styles/Styles.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources/Styles/Styles.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Boletos/BoletoPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Boletos.BoletoPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Boletos/BoletoPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Boletos/BoletoPage.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Boletos/QRCodePopup.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Boletos.QRCodePopup.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Boletos/QRCodePopup.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Boletos/QRCodePopup.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/HomePage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.HomePage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/HomePage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/HomePage.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Reservas/ReservaPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Reservas.ReservaPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Reservas/ReservaPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Reservas/ReservaPage.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Rutas/RutaPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Rutas.RutaPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Rutas/RutaPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Rutas/RutaPage.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Usuario/UsuarioPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Usuario.UsuarioPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Usuario/UsuarioPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Usuario/UsuarioPage.xaml

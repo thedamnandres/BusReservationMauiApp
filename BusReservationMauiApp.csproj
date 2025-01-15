@@ -57,16 +57,15 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\Rutas\CrearRutaPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
       <MauiXaml Update="Views\Rutas\RutaPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
@@ -76,10 +75,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\Rutas\CrearRutaPage.xaml.cs">
-        <DependentUpon>CrearRutaPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\Rutas\RutaPage.xaml.cs">
         <DependentUpon>RutaPage.xaml</DependentUpon>
         <SubType>Code</SubType>

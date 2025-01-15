@@ -6,9 +6,9 @@ namespace BusReservationMauiApp.Interfaces;
 
 public interface iRutaRepository
 {
+    Task<bool> CreateRutaAsync(Ruta ruta);
+    Task<bool> UpdateRutaAsync(Ruta ruta); 
+    Task<bool> DeleteRutaAsync(int id); 
     Task<IEnumerable<Ruta>> GetAllRutasAsync();
-    Task<Ruta> GetRutaByIdAsync(int id);
-    Task AddRutaAsync(Ruta ruta);
-    Task UpdateRutaAsync(Ruta ruta);
-    Task DeleteRutaAsync(int id);
+    Task<Ruta> GetRutaAsync(int id); 
 }
