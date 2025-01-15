@@ -1,0 +1,38 @@
+# Compiled source
+*.dll
+*.exe
+*.so
+*.dylib
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build directories
+bin/
+obj/
+
+# Android
+*.apk
+*.aab
+*.ap_
+*.class
+*.dex
+*.pro
+*.sbt
+
