@@ -16,5 +16,8 @@ namespace BusReservationMauiApp.Models
         public string Asiento { get; set; }
         public string EstadoReserva { get; set; }
         public float Precio { get; set; }
+        
+        public Color ColorEstadoReserva => EstadoReserva == "A TIEMPO" ? Colors.Green : Colors.Red;
+
     }
 }
