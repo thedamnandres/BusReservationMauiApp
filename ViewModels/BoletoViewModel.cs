@@ -1,36 +1,68 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using BusReservationMauiApp.Models;
+using BusReservationMauiApp.Repositories;
 using BusReservationMauiApp.Views.Boletos;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace BusReservationMauiApp.ViewModels;
 
-public class BoletoViewModel : BindableObject
+public partial class BoletoViewModel : ObservableObject
 {
-    public ObservableCollection<Reserva> Reservas { get; set; }
-    public ICommand MostrarQRCommand { get; }
+    private readonly BoletoRepository _boletoRepository;
 
-    public BoletoViewModel()
+    [ObservableProperty]
+    private ObservableCollection<Boleto> boletos;
+
+    public IAsyncRelayCommand RefreshBoletosCommand { get; }
+    public IAsyncRelayCommand AddBoletoCommand { get; }
+
+    public BoletoViewModel(string dbPath)
     {
-        Reservas = new ObservableCollection<Reserva>
+        _boletoRepository = new BoletoRepository(dbPath);
+        Boletos = new ObservableCollection<Boleto>();
+
+        RefreshBoletosCommand = new AsyncRelayCommand(LoadBoletosAsync);
+        AddBoletoCommand = new AsyncRelayCommand<Boleto>(AddBoletoAsync);
+
+        _ = LoadBoletosAsync();
+    }
+
+    private async Task LoadBoletosAsync()
+    {
+        try
         {
-            new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "A TIEMPO", Precio = 8f },
-            new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "RETRASO", Precio = 8f },
-            new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "A TIEMPO", Precio = 8f }
-        };
+            var boletosFromDb = await _boletoRepository.GetBoletosAsync();  // Llamar al método asincrónico
+            Boletos.Clear();
 
-        MostrarQRCommand = new Command<Reserva>(async (reserva) => await MostrarQRAmpliado(reserva));
+            foreach (var boleto in boletosFromDb)
+            {
+                Boletos.Add(boleto);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error al cargar boletos: {ex.Message}", "OK");
+        }
     }
 
-    private async Task MostrarQRAmpliado(Reserva reserva)
+
+    private async Task AddBoletoAsync(Boleto newBoleto)
     {
-        await Application.Current.MainPage.Navigation.PushModalAsync(new QRCodePopup("qr_code.jpeg"));
+        try
+        {
+            var success = await _boletoRepository.CreateBoletoAsync(newBoleto);
+            if (success)
+            {
+                Boletos.Add(newBoleto);
+                await Application.Current.MainPage.DisplayAlert("Éxito", "Boleto agregado correctamente.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error al agregar boleto: {ex.Message}", "OK");
+        }
     }
 
-    // Método para obtener el color según el estado
-    public Color GetColorForEstado(string estadoReserva)
-    {
-        return estadoReserva == "A TIEMPO" ? Colors.Green : Colors.Red;
-    }
-    
 }

@@ -9,10 +9,9 @@
     xmlns:boletos="clr-namespace:BusReservationMauiApp.Views.Boletos"
     Shell.FlyoutBehavior="Disabled"
     Title="BusReservationMauiApp">
-    
+
     <TabBar>
         <Tab Title="Home" Icon="casa.png">
-            
             <ShellContent
                 Title="Home"
                 ContentTemplate="{DataTemplate views:HomePage}"
@@ -43,5 +42,5 @@
                 Route="Usuario"/>
         </Tab>
     </TabBar>
-    
+
 </Shell>

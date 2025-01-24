@@ -2,6 +2,7 @@
 using BusReservationMauiApp.Services;
 using BusReservationMauiApp.ViewModels;
 using BusReservationMauiApp.Views;
+using BusReservationMauiApp.Views.Reservas;
 using Microsoft.Extensions.Logging;
 
 public static class MauiProgram
@@ -23,7 +24,14 @@ public static class MauiProgram
 
         // Registro de vistas
         builder.Services.AddSingleton<RutaPage>();
+        
+        builder.Services.AddSingleton<BoletoPage>();
+        builder.Services.AddSingleton<BoletoViewModel>();
 
+        builder.Services.AddSingleton<ReservaViewModel>();
+        builder.Services.AddSingleton<ReservaPage>();
+        
+        
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

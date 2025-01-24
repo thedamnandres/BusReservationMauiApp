@@ -17,6 +17,12 @@
                        VerticalOptions="Center"
                        HorizontalOptions="Start"
                        Grid.Column="0" />
+                <Button Text="Crear Boleto"
+                        FontSize="14"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        Clicked="OnCrearBoletoClicked"
+                        Grid.Column="1" />
             </Grid>
 
             <!-- Lista de Boletos -->

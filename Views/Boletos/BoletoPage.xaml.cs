@@ -10,10 +10,15 @@ public partial class BoletoPage : ContentPage
 {
     public ObservableCollection<Reserva> Reservas { get; set; }
     
-    public BoletoPage()
-    {
-        InitializeComponent();
-        BindingContext = new BoletoViewModel();
-    }
+   public BoletoPage(ReservaViewModel viewModel)
+   {
+      InitializeComponent();
+      BindingContext = viewModel;
+   }
+   
+   private async void OnCrearBoletoClicked(object sender, EventArgs e)
+   {
+       await Navigation.PushAsync(new CrearBoletoPage());
+   }
     
 }
