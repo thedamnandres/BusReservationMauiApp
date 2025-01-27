@@ -17,12 +17,15 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        // Registro de servicios
+        // Rutas
         builder.Services.AddSingleton<RutaService>();
         builder.Services.AddSingleton<RutaViewModel>();
-
-        // Registro de vistas
         builder.Services.AddSingleton<RutaPage>();
+        
+        // Boletos
+        builder.Services.AddSingleton<BoletoService>();
+        builder.Services.AddSingleton<BoletoViewModel>();
+        builder.Services.AddSingleton<BoletoPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

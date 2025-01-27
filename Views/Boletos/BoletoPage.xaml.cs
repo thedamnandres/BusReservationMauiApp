@@ -1,6 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Text;
+using System.Text.Json;
 using BusReservationMauiApp.Models;
+using BusReservationMauiApp.ViewModels;
 using BusReservationMauiApp.Views.Boletos;
 using Microsoft.Maui.Controls;
 
@@ -8,119 +11,398 @@ namespace BusReservationMauiApp.Views;
 
 public partial class BoletoPage : ContentPage
 {
-    public ObservableCollection<Reserva> Reservas { get; set; }
+    public ObservableCollection<Boleto> Boletos { get; set; } = new();
 
     public BoletoPage()
     {
         InitializeComponent();
-        
-        Reservas = new ObservableCollection<Reserva>
-        {
-            new Reserva { ReservaId = 1, Asiento = "A1", FechaReserva = DateTime.Today, EstadoReserva = "A TIEMPO", Precio = 8f },
-            new Reserva { ReservaId = 2, Asiento = "B2", FechaReserva = DateTime.Today.AddDays(1), EstadoReserva = "RETRASO", Precio = 8f },
-            new Reserva { ReservaId = 3, Asiento = "C3", FechaReserva = DateTime.Today.AddDays(2), EstadoReserva = "A TIEMPO", Precio = 8f }
-        };
-        
-        CargarBoletos();
+        BindingContext = this;
+
+        // Cargar todos los boletos al inicializar la página
+        CargarTodosLosBoletos();
     }
 
-    private void CargarBoletos()
+    // Método para cargar todos los boletos desde la API
+    private async void CargarTodosLosBoletos()
     {
-        BoletosGrid.RowDefinitions.Clear();
-        BoletosGrid.Children.Clear();
-
-        int rowIndex = 0;
-
-        foreach (var reserva in Reservas)
+        try
         {
-            BoletosGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            // Frame para la reserva
-            var frame = new Frame
+            var client = new HttpClient();
+            var response = await client.GetStringAsync("http://localhost:5191/api/Boletos/ver-boletos");
+            var boletos = JsonSerializer.Deserialize<List<Boleto>>(response, new JsonSerializerOptions
             {
-                CornerRadius = 10,
-                Padding = 10,
-                Margin = new Thickness(10, 5, 10, 5),
-                BackgroundColor = Colors.White,
-                HasShadow = true
-            };
+                PropertyNameCaseInsensitive = true
+            });
 
-            var grid = new Grid
+            Boletos.Clear();
+            if (boletos != null)
             {
-                ColumnDefinitions =
+                foreach (var boleto in boletos)
                 {
-                    new ColumnDefinition { Width = GridLength.Star },
-                    new ColumnDefinition { Width = GridLength.Auto } 
-                },
-                RowDefinitions =
-                {
-                    new RowDefinition { Height = GridLength.Auto },
-                    new RowDefinition { Height = GridLength.Auto }
+                    Boletos.Add(boleto);
                 }
-            };
-
-            // Atributos
-            var infoStack = new VerticalStackLayout
-            {
-                Spacing = 5,
-                Children =
-                {
-                    new Label
-                    {
-                        Text = $"Asiento: {reserva.Asiento}",
-                        FontSize = 18,
-                        FontAttributes = FontAttributes.Bold,
-                        TextColor = Colors.Black
-                    },
-                    new Label
-                    {
-                        Text = $"Estado: {reserva.EstadoReserva}",
-                        FontSize = 14,
-                        TextColor = reserva.EstadoReserva == "A TIEMPO" ? Colors.Green : Colors.Red
-                    },
-                    new Label
-                    {
-                        Text = $"Fecha: {reserva.FechaReserva:dd/MM/yyyy}",
-                        FontSize = 14,
-                        TextColor = Colors.Gray
-                    }
-                }
-            };
-
-            grid.Add(infoStack, 0, 0);
-            Grid.SetRowSpan(infoStack, 2);
-
-            // QR Code
-            var qrImage = new Image
-            {
-                Source = "qr_code.jpeg", 
-                HeightRequest = 100,
-                WidthRequest = 100,
-                HorizontalOptions = LayoutOptions.End,
-                VerticalOptions = LayoutOptions.Center
-            };
-
-            // Evento táctil para ampliar el QR
-            var tapGesture = new TapGestureRecognizer();
-            tapGesture.Tapped += async (s, e) =>
-            {
-                await MostrarQRAmpliado(reserva);
-            };
-            qrImage.GestureRecognizers.Add(tapGesture);
-
-            grid.Add(qrImage, 1, 0);
-            Grid.SetRowSpan(qrImage, 2);
-            
-            frame.Content = grid;
-
-            // Addframe al grid principal
-            BoletosGrid.Add(frame, 0, rowIndex);
-            rowIndex++;
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            await DisplayAlert("Error", $"Error de conexión: {ex.Message}", "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
         }
     }
-    
-    private async Task MostrarQRAmpliado(Reserva reserva)
+
+
+    // Método para buscar un boleto por reservaId
+    private async void BuscarBoletoPorReservaId()
     {
-        await Navigation.PushModalAsync(new QRCodePopup("qr_code.jpeg"));
+        try
+        {
+            // Solicitar el reservaId al usuario
+            string reservaId = await DisplayPromptAsync("Buscar Boleto", "Ingrese el ID de la reserva:");
+
+            if (string.IsNullOrWhiteSpace(reservaId))
+            {
+                await DisplayAlert("Error", "Debe ingresar un ID de reserva válido.", "OK");
+                return;
+            }
+
+            // Realizar la solicitud GET al API
+            var client = new HttpClient();
+            var response = await client.GetAsync($"http://localhost:5191/api/Boletos/ver-boleto/{reservaId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Leer y deserializar el resultado
+                var json = await response.Content.ReadAsStringAsync();
+                var boleto = JsonSerializer.Deserialize<Boleto>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                // Validar que el boleto no sea nulo
+                if (boleto != null)
+                {
+                    await DisplayAlert(
+                        "Boleto Encontrado",
+                        $"Reserva ID: {boleto.ReservaId}\n" +
+                        $"Nombre Pasajero: {boleto.NombrePasajero ?? "Sin Nombre"}\n" +
+                        $"Asiento: {boleto.Asiento ?? "Sin Asignar"}\n" +
+                        $"Fecha de Viaje: {(boleto.FechaViaje != default ? boleto.FechaViaje.ToString("yyyy-MM-dd") : "No Disponible")}\n" +
+                        $"Precio: {(boleto.Precio != 0 ? boleto.Precio.ToString("C") : "No Disponible")}\n" +
+                        $"Estado de Reserva: {boleto.EstadoReserva ?? "Desconocido"}",
+                        "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Error", "No se encontró un boleto con el ID proporcionado.", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se encontró un boleto con el ID proporcionado.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Ocurrió un error al buscar el boleto: {ex.Message}", "OK");
+        }
+    }
+
+
+    // Vincular el evento del botón en el código detrás
+    private void OnBuscarBoletoClicked(object sender, EventArgs e)
+    {
+        BuscarBoletoPorReservaId();
+    }
+
+
+    private async void EliminarBoletoPorReservaId()
+    {
+        try
+        {
+            // Solicitar el reservaId al usuario
+            string reservaId = await DisplayPromptAsync("Eliminar Boleto", "Ingrese el ID de la reserva a eliminar:");
+
+            if (string.IsNullOrWhiteSpace(reservaId))
+            {
+                await DisplayAlert("Error", "Debe ingresar un ID de reserva válido.", "OK");
+                return;
+            }
+
+            // Obtener información del boleto antes de eliminar
+            var client = new HttpClient();
+            var responseInfo = await client.GetAsync($"http://localhost:5191/api/Boletos/ver-boleto/{reservaId}");
+
+            if (responseInfo.IsSuccessStatusCode)
+            {
+                var jsonResponse = await responseInfo.Content.ReadAsStringAsync();
+                var boleto = JsonSerializer.Deserialize<Boleto>(jsonResponse, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                if (boleto != null)
+                {
+                    // Mostrar la información del boleto y pedir confirmación
+                    string mensaje = $"Información del boleto:\n\n" +
+                                     $"ID Reserva: {boleto.ReservaId}\n" +
+                                     $"Nombre Pasajero: {boleto.NombrePasajero}\n" +
+                                     $"Asiento: {boleto.Asiento}\n" +
+                                     $"Fecha Viaje: {boleto.FechaViaje.ToShortDateString()}\n" +
+                                     $"Precio: {boleto.Precio:C}\n" +
+                                     $"Estado Reserva: {boleto.EstadoReserva}\n\n" +
+                                     $"¿Está seguro de que desea eliminar este boleto?";
+
+                    bool confirmacion = await DisplayAlert("Confirmación", mensaje, "Sí", "No");
+                    if (!confirmacion)
+                    {
+                        return;
+                    }
+
+                    // Realizar la solicitud DELETE al API
+                    var responseDelete =
+                        await client.DeleteAsync($"http://localhost:5191/api/Boletos/eliminar/{reservaId}");
+
+                    if (responseDelete.IsSuccessStatusCode)
+                    {
+                        await DisplayAlert("Éxito", "El boleto se eliminó correctamente.", "OK");
+
+                        // Actualizar la lista de boletos
+                        CargarTodosLosBoletos();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error",
+                            "No se pudo eliminar el boleto. Asegúrese de que el ID de reserva exista.", "OK");
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error", "No se encontró el boleto con el ID proporcionado.", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se encontró el boleto con el ID proporcionado.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Ocurrió un error al eliminar el boleto: {ex.Message}", "OK");
+        }
+    }
+
+    private async void OnBuscarClicked(object sender, EventArgs e)
+    {
+        // Método que busca un boleto por reservaId
+        BuscarBoletoPorReservaId();
+    }
+
+    private void OnEliminarPorReservaIdClicked(object sender, EventArgs e)
+    {
+        EliminarBoletoPorReservaId();
+    }
+
+
+    // Método para editar un boleto
+    private async void EditarBoleto(Boleto boleto)
+    {
+        try
+        {
+            // Solicitar nuevos datos al usuario
+            string nuevoNombrePasajero = await DisplayPromptAsync("Editar Boleto",
+                "Ingrese el nuevo nombre del pasajero:", initialValue: boleto.NombrePasajero);
+            string nuevoAsiento = await DisplayPromptAsync("Editar Boleto", "Ingrese el nuevo número de asiento:",
+                initialValue: boleto.Asiento);
+            string nuevaFechaViaje = await DisplayPromptAsync("Editar Boleto",
+                "Ingrese la nueva fecha de viaje (YYYY-MM-DD):",
+                initialValue: boleto.FechaViaje.ToString("yyyy-MM-dd"));
+            string nuevoPrecio = await DisplayPromptAsync("Editar Boleto", "Ingrese el nuevo precio del boleto:",
+                initialValue: boleto.Precio.ToString());
+            string nuevoEstadoReserva = await DisplayPromptAsync("Editar Boleto",
+                "Ingrese el nuevo estado de la reserva:", initialValue: boleto.EstadoReserva);
+
+            // Validar que los campos no estén vacíos
+            if (string.IsNullOrWhiteSpace(nuevoNombrePasajero) || string.IsNullOrWhiteSpace(nuevoAsiento) ||
+                string.IsNullOrWhiteSpace(nuevaFechaViaje) || string.IsNullOrWhiteSpace(nuevoPrecio) ||
+                string.IsNullOrWhiteSpace(nuevoEstadoReserva))
+            {
+                await DisplayAlert("Error", "Todos los campos son obligatorios.", "OK");
+                return;
+            }
+
+            if (!int.TryParse(nuevoAsiento, out int asientoParsed))
+            {
+                await DisplayAlert("Error", "El número de asiento debe ser un entero válido.", "OK");
+                return;
+            }
+
+            // Actualizar los datos del objeto boleto
+            boleto.NombrePasajero = nuevoNombrePasajero;
+            boleto.Asiento = asientoParsed.ToString();
+            boleto.FechaViaje = DateTime.Parse(nuevaFechaViaje);
+            boleto.Precio = decimal.Parse(nuevoPrecio);
+            boleto.EstadoReserva = nuevoEstadoReserva;
+
+            // Serializar el objeto actualizado
+            var client = new HttpClient();
+            var json = JsonSerializer.Serialize(boleto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Enviar solicitud PUT al API
+            var response =
+                await client.PutAsync($"http://localhost:5191/api/Boletos/editar/{boleto.ReservaId}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await DisplayAlert("Éxito", "El boleto se actualizó correctamente.", "OK");
+
+                // Recargar la lista para reflejar los cambios
+                CargarTodosLosBoletos();
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se pudo actualizar el boleto en el API.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Ocurrió un error: {ex.Message}", "OK");
+        }
+    }
+
+    // Cambiar el método del botón de "Actualizar" a usar EditarBoleto
+    private void OnActualizarClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.BindingContext is Boleto boleto)
+        {
+            EditarBoleto(boleto);
+        }
+    }
+
+
+    // Método para eliminar un boleto
+    private async void EliminarBoleto(int reservaId)
+    {
+        try
+        {
+            var client = new HttpClient();
+            var response = await client.DeleteAsync($"http://localhost:5191/api/Boletos/eliminar/{reservaId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await DisplayAlert("Éxito", "El boleto se eliminó correctamente.", "OK");
+                CargarTodosLosBoletos(); // Recargar los boletos
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se pudo eliminar el boleto.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
+    // Event handlers para los botones
+    private void EditarBoleto(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.BindingContext is Boleto boleto)
+        {
+            EditarBoleto(boleto);
+        }
+    }
+
+    private void OnEliminarClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.BindingContext is Boleto boleto)
+        {
+            EliminarBoleto(boleto.ReservaId);
+        }
+    }
+
+
+    private async void OnCrearBoletoClicked(object sender, EventArgs e)
+    {
+        // Mostrar formulario para crear boleto
+        //string reservaId = await DisplayPromptAsync("Crear Boleto", "Ingrese el ID de la reserva:");
+        string nombrePasajero = await DisplayPromptAsync("Crear Boleto", "Ingrese el nombre del pasajero:");
+        string asiento = await DisplayPromptAsync("Crear Boleto", "Ingrese el número de asiento:");
+        string fechaViaje = await DisplayPromptAsync("Crear Boleto", "Ingrese la fecha de viaje (YYYY-MM-DD):");
+        string precio = await DisplayPromptAsync("Crear Boleto", "Ingrese el precio del boleto:");
+        string estadoReserva = await DisplayPromptAsync("Crear Boleto", "Ingrese el estado de la reserva:");
+
+        if ( /*string.IsNullOrWhiteSpace(reservaId) || */string.IsNullOrWhiteSpace(nombrePasajero) ||
+                                                         string.IsNullOrWhiteSpace(asiento) ||
+                                                         string.IsNullOrWhiteSpace(fechaViaje) ||
+                                                         string.IsNullOrWhiteSpace(precio) ||
+                                                         string.IsNullOrWhiteSpace(estadoReserva))
+        {
+            await DisplayAlert("Error", "Todos los campos son obligatorios.", "OK");
+            return;
+        }
+
+        try
+        {
+            if (!int.TryParse(asiento, out int asientoParsed))
+            {
+                await DisplayAlert("Error",
+                    "El valor ingresado para el número de asiento no es válido. Debe ser un número entero.", "OK");
+                return;
+            }
+
+            // Crear objeto de boleto
+            var newBoleto = new Boleto
+            {
+                //ReservaId = int.Parse(reservaId),
+                NombrePasajero = nombrePasajero,
+                Asiento = asientoParsed.ToString(),
+                FechaViaje = DateTime.Parse(fechaViaje),
+                Precio = decimal.Parse(precio),
+                EstadoReserva = estadoReserva
+            };
+
+            // Serializar objeto a JSON
+            var json = JsonSerializer.Serialize(newBoleto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Enviar solicitud POST al API
+            var client = new HttpClient();
+            var response = await client.PostAsync("http://localhost:5191/api/Boletos/crear", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Obtener boleto creado desde la respuesta del API
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var boletoCreado = JsonSerializer.Deserialize<Boleto>(jsonResponse, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                // Agregar boleto a la lista local
+                if (BindingContext is BoletoViewModel viewModel && boletoCreado != null)
+                {
+                    viewModel.Boletos.Add(boletoCreado);
+                }
+
+                await DisplayAlert("Éxito", "El boleto fue creado correctamente.", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se pudo crear el boleto en el API.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Ocurrió un error: {ex.Message}", "OK");
+        }
+    }
+
+    private async void OnActualizarListaClicked(object sender, EventArgs e)
+    {
+        CargarTodosLosBoletos(); // Llamar al método de recarga
     }
 }
