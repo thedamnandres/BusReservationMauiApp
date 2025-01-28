@@ -1,0 +1,56 @@
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BusReservationMauiApp.Views.Usuario.LoginPage"
+             Title="LoginPage" Shell.NavBarIsVisible="False"
+             xmlns:viewmodels="clr-namespace:BusReservationMauiApp.ViewModels">
+
+    <ContentPage.BindingContext>
+        <!-- Vincula el ViewModel a la página -->
+        <viewmodels:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <!-- Imagen de fondo con opacidad -->
+        <Image Source="buslogin.jpg" Aspect="AspectFill" Opacity="0.65" />
+
+        <!-- Contenido encima de la imagen -->
+        <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+            <Frame BackgroundColor="Black" BorderColor="Aqua" VerticalOptions="Center" HorizontalOptions="Center" Padding="20" Opacity="0.85">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Título -->
+                    <Label Grid.Row="0" Text="Iniciar Sesión" HorizontalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="White" Margin="50,30,50,0" />
+
+                    <!-- Entrada de Usuario -->
+                    <Entry Grid.Row="1" Placeholder="Usuario" PlaceholderColor="White" TextColor="Black" Margin="0,20,0,0" 
+                           Text="{Binding Username}" />
+
+                    <!-- Entrada de Contraseña -->
+                    <Entry Grid.Row="2" Placeholder="Contraseña" PlaceholderColor="White" IsPassword="True" TextColor="Black" Margin="0,20,0,0" 
+                           Text="{Binding Password}" />
+
+                    <!-- Botón de Iniciar Sesión -->
+                    <Button Grid.Row="3" Text="Iniciar Sesión" BackgroundColor="Cyan" TextColor="Black" 
+                            Command="{Binding LoginCommand}" Margin="0,20,0,0" />
+
+                    <!-- Botón de Registro -->
+                    <Button Grid.Row="4" Text="Regístrate" BackgroundColor="#eed09d" TextColor="Black" 
+                            Command="{Binding RegisterCommand}" Margin="0,20,0,0" />
+
+                 
+              
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
