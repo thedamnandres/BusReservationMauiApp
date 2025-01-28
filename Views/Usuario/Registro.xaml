@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BusReservationMauiApp.Views.Usuario.Registro"
+             Title="Registro"  
+             NavigationPage.HasNavigationBar="False"
+             xmlns:viewmodels="clr-namespace:BusReservationMauiApp.ViewModels">
+
+    <Grid>
+        <!-- Imagen de fondo con opacidad -->
+        <Image Source="buslogin.jpg" Aspect="AspectFill" Opacity="0.65" />
+
+        <!-- Contenido encima de la imagen dentro de un ScrollView -->
+        <ScrollView>
+            <VerticalStackLayout VerticalOptions="Center" Spacing="10" Padding="20">
+                <Frame BackgroundColor="Black" BorderColor="Aqua" HorizontalOptions="Center" Padding="20" Opacity="0.85">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Registro" HorizontalOptions="Center" FontSize="32" FontAttributes="Bold" TextColor="White" Margin="50,30,50,0" />
+
+                        <Label Grid.Row="1" Text="Ingresa tu nombre de Usuario" FontSize="Small" FontAttributes="Bold" TextColor="Aqua" Margin="0,30,50,0" />
+
+                        <Entry x:Name="usernameEntry" Grid.Row="2" Placeholder="Usuario" PlaceholderColor="White" TextColor="Black" Margin="0,20,0,0" Text="{Binding Nombre}" />
+
+                        <Label Grid.Row="3" Text="Ingresa tu contraseña" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextColor="Aqua" Margin="0,30,50,0" />
+
+                        <Entry x:Name="passwordEntry" Grid.Row="4" Placeholder="Contraseña" PlaceholderColor="White" IsPassword="True" TextColor="Black" Margin="0,20,0,0" Text="{Binding Contrasenia}" />
+
+                        <Label Grid.Row="5" Text="Ingresa tu Cedula de Identidad" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextColor="Aqua" Margin="0,30,50,0" />
+
+                        <Entry x:Name="ciEntry" Grid.Row="6" Placeholder="Cedula de Identidad" PlaceholderColor="White" TextColor="Black" Margin="0,20,0,0" Text="{Binding CI}" />
+
+                        <Label Grid.Row="7" Text="Correo Electronico" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextColor="Aqua" Margin="0,30,50,0" />
+
+                        <Entry x:Name="correoEntry" Grid.Row="8" Placeholder="Correo Electronico" PlaceholderColor="White" TextColor="Black" Margin="0,20,0,0" Text="{Binding Correo}" />
+
+                        <Label Grid.Row="9" Text="Telefono" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextColor="Aqua" Margin="0,30,50,0" />
+
+                        <Entry x:Name="telefonoEntry" Grid.Row="10" Placeholder="Telefono" PlaceholderColor="Black" TextColor="Black" Margin="0,20,0,0" Text="{Binding Telefono}" />
+
+                        <Button Grid.Row="11" Text="Registrar" BackgroundColor="SkyBlue" TextColor="Black" Command="{Binding RegisterCommand}" Margin="0,20,0,0" />
+
+                        <Button Grid.Row="12" Text="Volver" x:Name="btnVolver" Clicked="btnVolver_Clicked" Margin="0,20,0,0" />
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -7,41 +7,44 @@
     xmlns:views="clr-namespace:BusReservationMauiApp.Views"
     xmlns:reservas="clr-namespace:BusReservationMauiApp.Views.Reservas"
     xmlns:boletos="clr-namespace:BusReservationMauiApp.Views.Boletos"
+    xmlns:usuario="clr-namespace:BusReservationMauiApp.Views.Usuario"
     Shell.FlyoutBehavior="Disabled"
     Title="BusReservationMauiApp">
-    
-    <TabBar>
+
+    <ShellContent Title="Login" ContentTemplate="{DataTemplate usuario:LoginPage}" Route="LoginPage"/>
+
+    <TabBar x:Name="MainTabBar" IsVisible="True">
         <Tab Title="Home" Icon="casa.png">
-            
             <ShellContent
-                Title="Home"
-                ContentTemplate="{DataTemplate views:HomePage}"
-                Route="Principal"/>
+             Title="Home"
+             ContentTemplate="{DataTemplate views:HomePage}"
+             Route="Principal"/>
         </Tab>
         <Tab Title="Rutas" Icon="rutas.png">
             <ShellContent
-                Title="Rutas"
-                ContentTemplate="{DataTemplate views:RutaPage}"
-                Route="Rutas"/>
+             Title="Rutas"
+             ContentTemplate="{DataTemplate views:RutaPage}"
+             Route="Rutas"/>
         </Tab>
         <Tab Title="Boletos" Icon="boletos.png">
             <ShellContent
-                Title="Boletos"
-                ContentTemplate="{DataTemplate views:BoletoPage}"
-                Route="Boletos"/>
+             Title="Boletos"
+             ContentTemplate="{DataTemplate views:BoletoPage}"
+             Route="Boletos"/>
         </Tab>
         <Tab Title="Reservas" Icon="reservas.png">
             <ShellContent
-                Title="Reservas"
-                ContentTemplate="{DataTemplate reservas:ReservaPage}"
-                Route="Reservas"/>
+             Title="Reservas"
+             ContentTemplate="{DataTemplate reservas:ReservaPage}"
+             Route="Reservas"/>
         </Tab>
         <Tab Title="Usuarios" Icon="usuario.png">
             <ShellContent
-                Title="Usuario"
-                ContentTemplate="{DataTemplate views:UsuarioPage}"
-                Route="Usuario"/>
+             Title="Usuario"
+             ContentTemplate="{DataTemplate views:UsuarioPage}"
+             Route="Usuario"/>
         </Tab>
     </TabBar>
-    
+
+
 </Shell>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusReservationMauiApp.Models;
+using BusReservationMauiApp.ViewModels;
 
 namespace BusReservationMauiApp.Views;
 
@@ -12,17 +13,12 @@ public partial class UsuarioPage : ContentPage
     public UsuarioPage()
     {
         InitializeComponent();
+        BindingContext = new UsuarioViewModel();
+    }
 
-        // Datos quemados
-        var usuario = new Usuario
-        {
-            Nombre = "Paul Larrea",
-            CI = "1765467382",
-            Correo = "paul.larrea@hotmail.com",
-            Telefono = "99 897 7653"
-        };
-
-        // Asignar el modelo como contexto de la vista
-        BindingContext = usuario;
+    private async void btnCerrarSesion_Clicked(object sender, EventArgs e)
+    {
+        // Limpia datos de sesión
+        await Shell.Current.GoToAsync("//LoginPage");
     }
 }
