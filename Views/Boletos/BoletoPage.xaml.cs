@@ -28,7 +28,7 @@ public partial class BoletoPage : ContentPage
         try
         {
             var client = new HttpClient();
-            var response = await client.GetStringAsync("http://localhost:5191/api/Boletos/ver-boletos");
+            var response = await client.GetStringAsync("http://localhost:5191/api/Boleto/ver-boletos");
             var boletos = JsonSerializer.Deserialize<List<Boleto>>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -62,6 +62,12 @@ public partial class BoletoPage : ContentPage
             // Solicitar el reservaId al usuario
             string reservaId = await DisplayPromptAsync("Buscar Boleto", "Ingrese el ID de la reserva:");
 
+            // Si el usuario presiona "Cancelar", reservaId será null, así que salimos del método
+            if (reservaId == null)
+            {
+                return;  // Si el usuario cancela, no hacemos nada más
+            }
+
             if (string.IsNullOrWhiteSpace(reservaId))
             {
                 await DisplayAlert("Error", "Debe ingresar un ID de reserva válido.", "OK");
@@ -70,7 +76,7 @@ public partial class BoletoPage : ContentPage
 
             // Realizar la solicitud GET al API
             var client = new HttpClient();
-            var response = await client.GetAsync($"http://localhost:5191/api/Boletos/ver-boleto/{reservaId}");
+            var response = await client.GetAsync($"http://localhost:5191/api/Boleto/ver-boleto/{reservaId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -111,6 +117,7 @@ public partial class BoletoPage : ContentPage
     }
 
 
+
     // Vincular el evento del botón en el código detrás
     private void OnBuscarBoletoClicked(object sender, EventArgs e)
     {
@@ -125,6 +132,12 @@ public partial class BoletoPage : ContentPage
             // Solicitar el reservaId al usuario
             string reservaId = await DisplayPromptAsync("Eliminar Boleto", "Ingrese el ID de la reserva a eliminar:");
 
+            // Si el usuario presiona "Cancelar", reservaId será null, así que salimos del método
+            if (reservaId == null)
+            {
+                return;  // Si el usuario cancela, no hacemos nada más
+            }
+
             if (string.IsNullOrWhiteSpace(reservaId))
             {
                 await DisplayAlert("Error", "Debe ingresar un ID de reserva válido.", "OK");
@@ -133,7 +146,7 @@ public partial class BoletoPage : ContentPage
 
             // Obtener información del boleto antes de eliminar
             var client = new HttpClient();
-            var responseInfo = await client.GetAsync($"http://localhost:5191/api/Boletos/ver-boleto/{reservaId}");
+            var responseInfo = await client.GetAsync($"http://localhost:5191/api/Boleto/ver-boleto/{reservaId}");
 
             if (responseInfo.IsSuccessStatusCode)
             {
@@ -155,15 +168,15 @@ public partial class BoletoPage : ContentPage
                                      $"Estado Reserva: {boleto.EstadoReserva}\n\n" +
                                      $"¿Está seguro de que desea eliminar este boleto?";
 
+                    // Si el usuario presiona "Cancelar" en la confirmación, no se hace nada
                     bool confirmacion = await DisplayAlert("Confirmación", mensaje, "Sí", "No");
                     if (!confirmacion)
                     {
-                        return;
+                        return; // Si el usuario cancela la confirmación, no hacer nada
                     }
 
                     // Realizar la solicitud DELETE al API
-                    var responseDelete =
-                        await client.DeleteAsync($"http://localhost:5191/api/Boletos/eliminar/{reservaId}");
+                    var responseDelete = await client.DeleteAsync($"http://localhost:5191/api/Boleto/eliminar/{reservaId}");
 
                     if (responseDelete.IsSuccessStatusCode)
                     {
@@ -194,6 +207,7 @@ public partial class BoletoPage : ContentPage
         }
     }
 
+
     private async void OnBuscarClicked(object sender, EventArgs e)
     {
         // Método que busca un boleto por reservaId
@@ -206,7 +220,6 @@ public partial class BoletoPage : ContentPage
     }
 
 
-    // Método para editar un boleto
     private async void EditarBoleto(Boleto boleto)
     {
         try
@@ -214,15 +227,24 @@ public partial class BoletoPage : ContentPage
             // Solicitar nuevos datos al usuario
             string nuevoNombrePasajero = await DisplayPromptAsync("Editar Boleto",
                 "Ingrese el nuevo nombre del pasajero:", initialValue: boleto.NombrePasajero);
+            if (nuevoNombrePasajero == null) return;  // Si el usuario cancela, salir
+
             string nuevoAsiento = await DisplayPromptAsync("Editar Boleto", "Ingrese el nuevo número de asiento:",
                 initialValue: boleto.Asiento);
+            if (nuevoAsiento == null) return;  // Si el usuario cancela, salir
+
             string nuevaFechaViaje = await DisplayPromptAsync("Editar Boleto",
                 "Ingrese la nueva fecha de viaje (YYYY-MM-DD):",
                 initialValue: boleto.FechaViaje.ToString("yyyy-MM-dd"));
+            if (nuevaFechaViaje == null) return;  // Si el usuario cancela, salir
+
             string nuevoPrecio = await DisplayPromptAsync("Editar Boleto", "Ingrese el nuevo precio del boleto:",
                 initialValue: boleto.Precio.ToString());
+            if (nuevoPrecio == null) return;  // Si el usuario cancela, salir
+
             string nuevoEstadoReserva = await DisplayPromptAsync("Editar Boleto",
                 "Ingrese el nuevo estado de la reserva:", initialValue: boleto.EstadoReserva);
+            if (nuevoEstadoReserva == null) return;  // Si el usuario cancela, salir
 
             // Validar que los campos no estén vacíos
             if (string.IsNullOrWhiteSpace(nuevoNombrePasajero) || string.IsNullOrWhiteSpace(nuevoAsiento) ||
@@ -252,8 +274,7 @@ public partial class BoletoPage : ContentPage
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Enviar solicitud PUT al API
-            var response =
-                await client.PutAsync($"http://localhost:5191/api/Boletos/editar/{boleto.ReservaId}", content);
+            var response = await client.PutAsync($"http://localhost:5191/api/Boleto/editar/{boleto.ReservaId}", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -286,26 +307,40 @@ public partial class BoletoPage : ContentPage
     // Método para eliminar un boleto
     private async void EliminarBoleto(int reservaId)
     {
-        try
-        {
-            var client = new HttpClient();
-            var response = await client.DeleteAsync($"http://localhost:5191/api/Boletos/eliminar/{reservaId}");
+        // Mostrar ventana de confirmación antes de eliminar
+        bool respuesta = await DisplayAlert("Confirmación",
+                                             "¿Estás seguro de eliminar este boleto?",
+                                             "Sí", "No");
 
-            if (response.IsSuccessStatusCode)
+        if (respuesta) // Si el usuario presiona "Sí"
+        {
+            try
             {
-                await DisplayAlert("Éxito", "El boleto se eliminó correctamente.", "OK");
-                CargarTodosLosBoletos(); // Recargar los boletos
+                var client = new HttpClient();
+                var response = await client.DeleteAsync($"http://localhost:5191/api/Boleto/eliminar/{reservaId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await DisplayAlert("Éxito", "El boleto se eliminó correctamente.", "OK");
+                    CargarTodosLosBoletos(); // Recargar los boletos
+                }
+                else
+                {
+                    await DisplayAlert("Error", "No se pudo eliminar el boleto.", "OK");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await DisplayAlert("Error", "No se pudo eliminar el boleto.", "OK");
+                await DisplayAlert("Error", ex.Message, "OK");
             }
         }
-        catch (Exception ex)
+        else
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            // Si el usuario presiona "No", no hace nada y se sale
+            await DisplayAlert("Cancelado", "El boleto no fue eliminado.", "OK");
         }
     }
+
 
     // Event handlers para los botones
     private void EditarBoleto(object sender, EventArgs e)
@@ -327,19 +362,31 @@ public partial class BoletoPage : ContentPage
 
     private async void OnCrearBoletoClicked(object sender, EventArgs e)
     {
+   
         // Mostrar formulario para crear boleto
-        //string reservaId = await DisplayPromptAsync("Crear Boleto", "Ingrese el ID de la reserva:");
-        string nombrePasajero = await DisplayPromptAsync("Crear Boleto", "Ingrese el nombre del pasajero:");
-        string asiento = await DisplayPromptAsync("Crear Boleto", "Ingrese el número de asiento:");
-        string fechaViaje = await DisplayPromptAsync("Crear Boleto", "Ingrese la fecha de viaje (YYYY-MM-DD):");
-        string precio = await DisplayPromptAsync("Crear Boleto", "Ingrese el precio del boleto:");
-        string estadoReserva = await DisplayPromptAsync("Crear Boleto", "Ingrese el estado de la reserva:");
 
-        if ( /*string.IsNullOrWhiteSpace(reservaId) || */string.IsNullOrWhiteSpace(nombrePasajero) ||
-                                                         string.IsNullOrWhiteSpace(asiento) ||
-                                                         string.IsNullOrWhiteSpace(fechaViaje) ||
-                                                         string.IsNullOrWhiteSpace(precio) ||
-                                                         string.IsNullOrWhiteSpace(estadoReserva))
+        // Se valida que el usuario no cancele en ningún paso
+        string nombrePasajero = await DisplayPromptAsync("Crear Boleto", "Ingrese el nombre del pasajero:");
+        if (nombrePasajero == null) return;  // Si el usuario cancela, salir del método
+
+        string asiento = await DisplayPromptAsync("Crear Boleto", "Ingrese el número de asiento:");
+        if (asiento == null) return;  // Si el usuario cancela, salir del método
+
+        string fechaViaje = await DisplayPromptAsync("Crear Boleto", "Ingrese la fecha de viaje (YYYY-MM-DD):");
+        if (fechaViaje == null) return;  // Si el usuario cancela, salir del método
+
+        string precio = await DisplayPromptAsync("Crear Boleto", "Ingrese el precio del boleto:");
+        if (precio == null) return;  // Si el usuario cancela, salir del método
+
+        string estadoReserva = await DisplayPromptAsync("Crear Boleto", "Ingrese el estado de la reserva:");
+        if (estadoReserva == null) return;  // Si el usuario cancela, salir del método
+
+        // Verificación de campos vacíos
+        if (string.IsNullOrWhiteSpace(nombrePasajero) ||
+            string.IsNullOrWhiteSpace(asiento) ||
+            string.IsNullOrWhiteSpace(fechaViaje) ||
+            string.IsNullOrWhiteSpace(precio) ||
+            string.IsNullOrWhiteSpace(estadoReserva))
         {
             await DisplayAlert("Error", "Todos los campos son obligatorios.", "OK");
             return;
@@ -347,17 +394,16 @@ public partial class BoletoPage : ContentPage
 
         try
         {
+            // Validación de formato del asiento
             if (!int.TryParse(asiento, out int asientoParsed))
             {
-                await DisplayAlert("Error",
-                    "El valor ingresado para el número de asiento no es válido. Debe ser un número entero.", "OK");
+                await DisplayAlert("Error", "El valor ingresado para el número de asiento no es válido. Debe ser un número entero.", "OK");
                 return;
             }
 
             // Crear objeto de boleto
             var newBoleto = new Boleto
             {
-                //ReservaId = int.Parse(reservaId),
                 NombrePasajero = nombrePasajero,
                 Asiento = asientoParsed.ToString(),
                 FechaViaje = DateTime.Parse(fechaViaje),
@@ -371,7 +417,7 @@ public partial class BoletoPage : ContentPage
 
             // Enviar solicitud POST al API
             var client = new HttpClient();
-            var response = await client.PostAsync("http://localhost:5191/api/Boletos/crear", content);
+            var response = await client.PostAsync("http://localhost:5191/api/Boleto/crear", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -400,6 +446,7 @@ public partial class BoletoPage : ContentPage
             await DisplayAlert("Error", $"Ocurrió un error: {ex.Message}", "OK");
         }
     }
+
 
     private async void OnActualizarListaClicked(object sender, EventArgs e)
     {
