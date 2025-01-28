@@ -1,24 +1,22 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using BusReservationMauiApp.Models;
 using BusReservationMauiApp.ViewModels;
+using Microsoft.Maui.Controls;
 
-namespace BusReservationMauiApp.Views;
-
-public partial class UsuarioPage : ContentPage
+namespace BusReservationMauiApp.Views
 {
-    public UsuarioPage()
+    public partial class UsuarioPage : ContentPage
     {
-        InitializeComponent();
-        BindingContext = new UsuarioViewModel();
-    }
+        public UsuarioPage()
+        {
+            InitializeComponent();
+            BindingContext = new UsuarioViewModel();
+        }
 
-    private async void btnCerrarSesion_Clicked(object sender, EventArgs e)
-    {
-        // Limpia datos de sesión
-        await Shell.Current.GoToAsync("//LoginPage");
+        private async void btnCerrarSesion_Clicked(object sender, EventArgs e)
+        {
+            // Limpia datos de sesiÃ³n
+            await Shell.Current.GoToAsync("//LoginPage");
+        }
     }
 }

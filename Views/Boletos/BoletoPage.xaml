@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:BusReservationMauiApp.ViewModels"
@@ -9,141 +8,145 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Padding="10">
-                <Button Text="Actualizar Lista"
-                        Clicked="OnActualizarListaClicked"
-                        BackgroundColor="#f5f5f5"
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        CornerRadius="15" />
+        <Grid RowDefinitions="Auto, *">
+            <!-- Botón de refrescar en la parte superior -->
+            <Button Grid.Row="0"
+                    BackgroundColor="#f5f5f5"
+                    Text="Actualizar Lista"
+                    Clicked="OnActualizarListaClicked"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    FontSize="18"/>
 
-                <!-- Scroll horizontal para los botones principales -->
-                <ScrollView Orientation="Horizontal" Margin="0,20">
-                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                        <Button Text="Crear Boleto"
-                                Clicked="OnCrearBoletoClicked"
-                                BackgroundColor="#4CAF50"
-                                FontAttributes="Bold"
-                                TextColor="White"
-                                WidthRequest="120"
-                                CornerRadius="10" />
+            <!-- Contenido principal -->
+            <ScrollView Grid.Row="1">
+                <StackLayout Padding="10">
+                    <!-- Scroll horizontal para los botones principales -->
+                    <ScrollView Orientation="Horizontal" Margin="0,20">
+                        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                            <Button Text="Crear Boleto"
+                                    Clicked="OnCrearBoletoClicked"
+                                    BackgroundColor="#4CAF50"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    WidthRequest="120"
+                                    CornerRadius="10" />
 
-                        <Button Text="Buscar Boleto"
-                                Clicked="OnBuscarClicked"
-                                BackgroundColor="#FF9800"
-                                FontAttributes="Bold"
-                                TextColor="White"
-                                WidthRequest="123"
-                                CornerRadius="10" />
+                            <Button Text="Buscar Boleto"
+                                    Clicked="OnBuscarClicked"
+                                    BackgroundColor="#FF9800"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    WidthRequest="123"
+                                    CornerRadius="10" />
 
-                        <Button Text="Eliminar Boleto"
-                                Clicked="OnEliminarPorReservaIdClicked"
-                                BackgroundColor="#F44336"
-                                FontAttributes="Bold"
-                                TextColor="White"
-                                WidthRequest="133"
-                                CornerRadius="10" />
-                    </HorizontalStackLayout>
-                </ScrollView>
+                            <Button Text="Eliminar Boleto"
+                                    Clicked="OnEliminarPorReservaIdClicked"
+                                    BackgroundColor="#F44336"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    WidthRequest="133"
+                                    CornerRadius="10" />
+                        </HorizontalStackLayout>
+                    </ScrollView>
 
-                <!-- Lista de boletos -->
-                <CollectionView Grid.Row="1" ItemsSource="{Binding Boletos}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="*, Auto">
-                                <Frame Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       CornerRadius="10"
-                                       Padding="10"
-                                       Margin="20,14,20,4"
-                                       BackgroundColor="White"
-                                       HasShadow="True">
-                                    <Grid ColumnDefinitions="*, Auto"
-                                          RowDefinitions="Auto, Auto, Auto, Auto, Auto">
-                                        <!-- Nombre del Pasajero -->
-                                        <Label Text="{Binding NombrePasajero}"
-                                               FontSize="22"
-                                               FontAttributes="Bold"
-                                               TextColor="#2E2E2E"
-                                               Grid.Row="0"
-                                               Grid.Column="0"
-                                               />
+                    <!-- Lista de boletos -->
+                    <CollectionView ItemsSource="{Binding Boletos}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Frame Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           CornerRadius="10"
+                                           Padding="10"
+                                           Margin="20,14,20,4"
+                                           BackgroundColor="White"
+                                           HasShadow="True">
+                                        <Grid ColumnDefinitions="*, Auto"
+                                              RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                                            <!-- Nombre del Pasajero -->
+                                            <Label Text="{Binding NombrePasajero}"
+                                                   FontSize="22"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#2E2E2E"
+                                                   Grid.Row="0"
+                                                   Grid.Column="0"
+                                                   />
 
-                                        <!-- Asiento -->
-                                        <Label Text="{Binding Asiento, StringFormat='Asiento: {0}'}"
-                                               FontSize="18"
-                                               FontAttributes="Italic"
-                                               TextColor="#4CAF50"
-                                               Grid.Row="1"
-                                               Grid.Column="0"
-                                               />
+                                            <!-- Asiento -->
+                                            <Label Text="{Binding Asiento, StringFormat='Asiento: {0}'}"
+                                                   FontSize="18"
+                                                   FontAttributes="Italic"
+                                                   TextColor="#4CAF50"
+                                                   Grid.Row="1"
+                                                   Grid.Column="0"
+                                                   />
 
-                                        <!-- Estado -->
-                                        <Label Text="{Binding EstadoReserva}"
-                                               FontSize="16"
-                                               TextColor="#FF9800"
-                                               Grid.Row="2"
-                                               Grid.Column="0"
-                                               />
+                                            <!-- Estado -->
+                                            <Label Text="{Binding EstadoReserva}"
+                                                   FontSize="16"
+                                                   TextColor="#FF9800"
+                                                   Grid.Row="2"
+                                                   Grid.Column="0"
+                                                   />
 
-                                        <!-- Fecha -->
-                                        <Label Text="{Binding FechaViaje, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
-                                               FontSize="16"
-                                               TextColor="Gray"
-                                               Grid.Row="3"
-                                               Grid.Column="0"
-                                               />
+                                            <!-- Fecha -->
+                                            <Label Text="{Binding FechaViaje, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
+                                                   FontSize="16"
+                                                   TextColor="Gray"
+                                                   Grid.Row="3"
+                                                   Grid.Column="0"
+                                                   />
 
-                                        <!-- Reserva ID -->
-                                        <Label Text="{Binding ReservaId, StringFormat='Reserva ID: {0}'}"
-                                               FontSize="16"
-                                               TextColor="#333333"
-                                               Grid.Row="0"
-                                               Grid.RowSpan="3"
-                                               Grid.Column="1"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center"
-                                               />
+                                            <!-- Reserva ID -->
+                                            <Label Text="{Binding ReservaId, StringFormat='Reserva ID: {0}'}"
+                                                   FontSize="16"
+                                                   TextColor="#333333"
+                                                   Grid.Row="0"
+                                                   Grid.RowSpan="3"
+                                                   Grid.Column="1"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center"
+                                                   />
 
-                                        <!-- Precio del Boleto -->
-                                        <Label Text="{Binding Precio, StringFormat='Precio: {0:C}'}"
-                                               FontSize="18"
-                                               FontAttributes="Bold"
-                                               TextColor="#4CAF50"
-                                               Grid.Row="3"
-                                               Grid.Column="1"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center"
-                                               />
+                                            <!-- Precio del Boleto -->
+                                            <Label Text="{Binding Precio, StringFormat='Precio: {0:C}'}"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#4CAF50"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center"
+                                                   />
 
-                                        <!-- Botones -->
-                                        <HorizontalStackLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                                                               Spacing="10" HorizontalOptions="Center"
-                                                               Margin="10,0,0,0" Padding="0,10,0,-5">
-                                            <Button Text="Actualizar"
-                                                    Clicked="EditarBoleto"
-                                                    BackgroundColor="#4CAF50"
-                                                    TextColor="White"
-                                                    WidthRequest="100"
-                                                    CornerRadius="10" />
+                                            <!-- Botones -->
+                                            <HorizontalStackLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                                                                   Spacing="10" HorizontalOptions="Center"
+                                                                   Margin="10,0,0,0" Padding="0,10,0,-5">
+                                                <Button Text="Actualizar"
+                                                        Clicked="EditarBoleto"
+                                                        BackgroundColor="#4CAF50"
+                                                        TextColor="White"
+                                                        WidthRequest="100"
+                                                        CornerRadius="10" />
 
-                                            <Button Text="Eliminar"
-                                                    Clicked="OnEliminarClicked"
-                                                    BackgroundColor="#F44336"
-                                                    TextColor="White"
-                                                    WidthRequest="100"
-                                                    CornerRadius="10" />
-                                        </HorizontalStackLayout>
-                                    </Grid>
-                                </Frame>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-        </ScrollView>
+                                                <Button Text="Eliminar"
+                                                        Clicked="OnEliminarClicked"
+                                                        BackgroundColor="#F44336"
+                                                        TextColor="White"
+                                                        WidthRequest="100"
+                                                        CornerRadius="10" />
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

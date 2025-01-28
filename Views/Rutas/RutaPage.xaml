@@ -7,8 +7,6 @@
         <Grid RowDefinitions=".15*,1.5*">
             <!-- Encabezado -->
             <Button Grid.Row="0"
-                    CornerRadius="0"
-                    Padding="0"
                     BackgroundColor="#f5f5f5"
                     Text="HOY"
                     Command="{Binding RefreshRutasCommand}"

@@ -81,6 +81,18 @@ build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.View
 build_metadata.AdditionalFiles.TargetPath = Views/Rutas/RutaPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views/Rutas/RutaPage.xaml
 
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Usuario/LoginPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Usuario.LoginPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Usuario/LoginPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Usuario/LoginPage.xaml
+
+[/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Usuario/Registro.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Usuario.Registro.xaml
+build_metadata.AdditionalFiles.TargetPath = Views/Usuario/Registro.xaml
+build_metadata.AdditionalFiles.RelativePath = Views/Usuario/Registro.xaml
+
 [/Users/thedamnandres/RiderProjects/BusReservationMauiApp/Views/Usuario/UsuarioPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = BusReservationMauiApp.Views.Usuario.UsuarioPage.xaml

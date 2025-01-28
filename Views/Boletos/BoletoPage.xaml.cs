@@ -28,7 +28,7 @@ public partial class BoletoPage : ContentPage
         try
         {
             var client = new HttpClient();
-            var response = await client.GetStringAsync("http://localhost:5191/api/Boleto/ver-boletos");
+            var response = await client.GetStringAsync("http://localhost:5191/api/Boletos/ver-boletos");
             var boletos = JsonSerializer.Deserialize<List<Boleto>>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -76,7 +76,7 @@ public partial class BoletoPage : ContentPage
 
             // Realizar la solicitud GET al API
             var client = new HttpClient();
-            var response = await client.GetAsync($"http://localhost:5191/api/Boleto/ver-boleto/{reservaId}");
+            var response = await client.GetAsync($"http://localhost:5191/api/Boletos/ver-boleto/{reservaId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -146,7 +146,7 @@ public partial class BoletoPage : ContentPage
 
             // Obtener información del boleto antes de eliminar
             var client = new HttpClient();
-            var responseInfo = await client.GetAsync($"http://localhost:5191/api/Boleto/ver-boleto/{reservaId}");
+            var responseInfo = await client.GetAsync($"http://localhost:5191/api/Boletos/ver-boleto/{reservaId}");
 
             if (responseInfo.IsSuccessStatusCode)
             {
@@ -176,7 +176,7 @@ public partial class BoletoPage : ContentPage
                     }
 
                     // Realizar la solicitud DELETE al API
-                    var responseDelete = await client.DeleteAsync($"http://localhost:5191/api/Boleto/eliminar/{reservaId}");
+                    var responseDelete = await client.DeleteAsync($"http://localhost:5191/api/Boletos/eliminar/{reservaId}");
 
                     if (responseDelete.IsSuccessStatusCode)
                     {
@@ -274,7 +274,7 @@ public partial class BoletoPage : ContentPage
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Enviar solicitud PUT al API
-            var response = await client.PutAsync($"http://localhost:5191/api/Boleto/editar/{boleto.ReservaId}", content);
+            var response = await client.PutAsync($"http://localhost:5191/api/Boletos/editar/{boleto.ReservaId}", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -317,7 +317,7 @@ public partial class BoletoPage : ContentPage
             try
             {
                 var client = new HttpClient();
-                var response = await client.DeleteAsync($"http://localhost:5191/api/Boleto/eliminar/{reservaId}");
+                var response = await client.DeleteAsync($"http://localhost:5191/api/Boletos/eliminar/{reservaId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -417,7 +417,7 @@ public partial class BoletoPage : ContentPage
 
             // Enviar solicitud POST al API
             var client = new HttpClient();
-            var response = await client.PostAsync("http://localhost:5191/api/Boleto/crear", content);
+            var response = await client.PostAsync("http://localhost:5191/api/Boletos/crear", content);
 
             if (response.IsSuccessStatusCode)
             {

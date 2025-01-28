@@ -12,7 +12,7 @@
 
     <Grid>
         <!-- Imagen de fondo con opacidad -->
-        <Image Source="buslogin.jpg" Aspect="AspectFill" Opacity="0.65" />
+        <Image Source="login.jpg" Aspect="AspectFill" />
 
         <!-- Contenido encima de la imagen -->
         <VerticalStackLayout VerticalOptions="Center" Spacing="10">
@@ -44,7 +44,7 @@
                             Command="{Binding LoginCommand}" Margin="0,20,0,0" />
 
                     <!-- Botón de Registro -->
-                    <Button Grid.Row="4" Text="Regístrate" BackgroundColor="#eed09d" TextColor="Black" 
+                    <Button Grid.Row="4" Text="Regístrate" BackgroundColor="SkyBlue" TextColor="Black" 
                             Command="{Binding RegisterCommand}" Margin="0,20,0,0" />
 
                  

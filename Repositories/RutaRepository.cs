@@ -69,7 +69,7 @@ public class RutaRepository : iRutaRepository
             // Eliminar localmente
             _connection.Delete<Ruta>(id);
 
-            // Sincronizar con la API
+            // API
             return await _rutaService.DeleteRutaAsync(id);
         }
         catch
@@ -82,11 +82,11 @@ public class RutaRepository : iRutaRepository
     {
         try
         {
-            // Intentar obtener rutas desde la API
+            // Obtener rutas desde la API
             var rutasRemotas = await _rutaService.GetAllRutasAsync();
             if (rutasRemotas.Any())
             {
-                // Sincronizar datos remotos con la base de datos local
+                
                 foreach (var ruta in rutasRemotas)
                 {
                     var existe = _connection.Table<Ruta>().FirstOrDefault(r => r.IdRuta == ruta.IdRuta);
@@ -114,7 +114,7 @@ public class RutaRepository : iRutaRepository
     {
         try
         {
-            // Intentar obtener ruta desde la API
+            // Ruta desde la API
             return await _rutaService.GetRutaAsync(id);
         }
         catch

@@ -16,10 +16,7 @@ namespace BusReservationMauiApp.Interfaces
 
         public UserData(SQLiteAsyncConnection conexionBD)
         {
-
             _conexionBD = conexionBD;
-
-
         }
 
         public Task<List<Usuario>> ListaUsuarios()

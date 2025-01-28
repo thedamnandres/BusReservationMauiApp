@@ -1,13 +1,13 @@
-﻿
-using BusReservationMauiApp.Views.Usuario;
-using MvvmHelpers;
+﻿using MvvmHelpers;
 using System.Windows.Input;
+using BusReservationMauiApp.Views.Usuario;
 
 namespace BusReservationMauiApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private string _username;
+
         public string Username
         {
             get => _username;
@@ -15,6 +15,7 @@ namespace BusReservationMauiApp.ViewModels
         }
 
         private string _password;
+
         public string Password
         {
             get => _password;
@@ -40,7 +41,8 @@ namespace BusReservationMauiApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Por favor ingrese usuario y contraseña", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Por favor ingrese usuario y contraseña",
+                    "OK");
                 return;
             }
 
@@ -48,26 +50,24 @@ namespace BusReservationMauiApp.ViewModels
 
             if (user == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Inicio de Sesión Fallido", "Usuario o Contraseña Incorrectos", "OK");
+                await Application.Current.MainPage.DisplayAlert("Inicio de Sesión Fallido",
+                    "Usuario o Contraseña Incorrectos", "OK");
             }
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Inicio de Sesión", "Inicio de Sesión Exitoso", "OK");
 
                 // Navegar a la Shell principal después del login exitoso
-                Application.Current.MainPage = new AppShell();  // Cambia la página raíz a AppShell
+                Application.Current.MainPage = new AppShell(); // Cambia la página raíz a AppShell
                 await Shell.Current.GoToAsync("///Principal");
             }
         }
-
 
         // Lógica para registrarse
         private async Task Register()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new Registro());
         }
-
-
 
         private void LoadUsers()
         {
